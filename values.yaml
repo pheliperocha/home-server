@@ -1,0 +1,7 @@
+homeassistasnt:
+  name: homeassistant
+  replicaCount: 1
+  serviceAccount:
+    create: true
+    annotations: {}
+

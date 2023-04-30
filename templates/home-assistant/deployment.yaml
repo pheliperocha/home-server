@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.homeassistasnt.name }}
+  labels:
+    {{- include "homeassistant.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.homeassistasnt.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "homeassistant.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "homeassistant.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Values.homeassistasnt.name }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Values.homeassistasnt.name }}
+          image: "ghcr.io/home-assistant/home-assistant:stable"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8123
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /config
+              name: {{ .Values.homeassistasnt.name }}-persistent-volume
+      volumes:
+        - name: {{ .Values.homeassistasnt.name }}-persistent-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.homeassistasnt.name }}-pv-claim
