@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.homeassistasnt.name }}
+  name: {{ .Values.homeassistant.name }}
   labels:
     {{- include "homeassistant.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.homeassistasnt.replicaCount }}
+  replicas: {{ .Values.homeassistant.replicaCount }}
   selector:
     matchLabels:
       {{- include "homeassistant.selectorLabels" . | nindent 6 }}
@@ -14,10 +14,10 @@ spec:
       labels:
         {{- include "homeassistant.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Values.homeassistasnt.name }}
+      serviceAccountName: {{ .Values.homeassistant.name }}
       restartPolicy: Always
       containers:
-        - name: {{ .Values.homeassistasnt.name }}
+        - name: {{ .Values.homeassistant.name }}
           image: "ghcr.io/home-assistant/home-assistant:2023.3.6"
           imagePullPolicy: IfNotPresent
           ports:
@@ -42,8 +42,8 @@ spec:
             timeoutSeconds: 10
           volumeMounts:
             - mountPath: /config
-              name: {{ .Values.homeassistasnt.name }}-persistent-volume
+              name: {{ .Values.homeassistant.name }}-persistent-volume
       volumes:
-        - name: {{ .Values.homeassistasnt.name }}-persistent-volume
+        - name: {{ .Values.homeassistant.name }}-persistent-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.homeassistasnt.name }}-pv-claim
+            claimName: {{ .Values.homeassistant.name }}-pv-claim

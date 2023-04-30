@@ -1,4 +1,4 @@
-homeassistasnt:
+homeassistant:
   name: homeassistant
   replicaCount: 1
   serviceAccount:

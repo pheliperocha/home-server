@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.homeassistasnt.name }}-pv-claim
+  name: {{ .Values.homeassistant.name }}-pv-claim
   labels:
     {{- include "homeassistant.labels" . | nindent 4 }}
 spec:

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.homeassistasnt.name }}
+  name: {{ .Values.homeassistant.name }}
   labels:
     {{- include "homeassistant.labels" . | nindent 4 }}
 spec:

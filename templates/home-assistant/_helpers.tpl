@@ -12,6 +12,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{- define "homeassistant.selectorLabels" -}}
-app.kubernetes.io/name: {{ .Values.homeassistasnt.name }}
+app.kubernetes.io/name: {{ .Values.homeassistant.name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
