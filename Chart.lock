@@ -1,0 +1,6 @@
+dependencies:
+- name: drone
+  repository: https://charts.drone.io
+  version: 0.6.4
+digest: sha256:1f2bafab8e9dab9e8e04792516b94e5ae94087cfaf07e8ad50e52db84e2ffff3
+generated: "2023-04-30T21:56:10.537195457-03:00"
