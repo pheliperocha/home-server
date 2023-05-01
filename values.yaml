@@ -5,3 +5,9 @@ homeassistant:
     create: true
     annotations: {}
 
+nodered:
+  name: nodered
+  replicaCount: 1
+  serviceAccount:
+    create: true
+    annotations: {}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.nodered.name }}
+  labels:
+    {{- include "nodered.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.nodered.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nodered.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nodered.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Values.nodered.name }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Values.nodered.name }}
+          image: nodered/node-red:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 1880
+              protocol: TCP
+          env:
+            - name: TZ
+              value: America/Sao_Paulo
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /data
+              name: {{ .Values.nodered.name }}-persistent-volume
+      volumes:
+        - name: {{ .Values.nodered.name }}-persistent-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.nodered.name }}-pv-claim
