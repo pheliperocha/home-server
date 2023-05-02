@@ -9,13 +9,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "homeassistant.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: "tunnel-{{ .Values.homeassistant.name }}"
+      app.kubernetes.io/instance: {{ .Release.Name }}
       tunnel: "tunnel-{{ .Values.homeassistant.name }}"
   replicas: 1
   template:
     metadata:
       labels:
-        {{- include "homeassistant.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/name: "tunnel-{{ .Values.homeassistant.name }}"
+        app.kubernetes.io/instance: {{ .Release.Name }}
         tunnel: "tunnel-{{ .Values.homeassistant.name }}"
     spec:
       containers:

@@ -4,6 +4,9 @@ homeassistant:
   serviceAccount:
     create: true
     annotations: {}
+  tunnel:
+    name: homeassistant-tunnel
+    hostname: homeassistant.pheliperocha.com
 
 nodered:
   name: nodered
@@ -70,12 +73,9 @@ drone:
   env:
     DRONE_LOGS_DEBUG: true
     DRONE_LOGS_TRACE: true
-    DRONE_SERVER_HOST: xxx # Use proper hostname
+    DRONE_SERVER_HOST: drone.pheliperocha.com
     DRONE_SERVER_PROTO: https
-    DRONE_RPC_SECRET: xxx # Use random secret
-    DRONE_GITHUB_CLIENT_ID: xxx # TODO: Use from secrets
-    DRONE_GITHUB_CLIENT_SECRET: xxx # TODO: Use from secrets
-    DRONE_USER_FILTER: xxx # TODO: Use user filter
+    DRONE_USER_FILTER: pheliperocha
 
 drone-runner-docker:
   hostAliases: []
@@ -166,7 +166,6 @@ drone-runner-docker:
     DRONE_DEBUG: true
     DRONE_TRACE: true
     DOCKER_HOST: "tcp://localhost:2375"
-    DRONE_RPC_SECRET: xxx # Use random secret
-    DRONE_RPC_HOST: xxx # Use proper hostname
+    DRONE_RPC_HOST: drone.pheliperocha.com
     DRONE_RPC_PROTO: https
     DRONE_NAMESPACE_DEFAULT: home-server
