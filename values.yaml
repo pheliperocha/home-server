@@ -1,5 +1,6 @@
 homeassistant:
   name: homeassistant
+  localHostname: homeassistant.local
   replicaCount: 1
   serviceAccount:
     create: true
