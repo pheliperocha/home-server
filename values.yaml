@@ -1,13 +1,13 @@
 homeassistant:
   name: homeassistant
   localHostname: homeassistant.local
+  publicHostname: homeassistant.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
   tunnel:
-    name: homeassistant-tunnel
-    hostname: homeassistant.pheliperocha.com
+    cloudflare_name: home_assistant
 
 nodered:
   name: nodered

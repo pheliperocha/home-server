@@ -73,11 +73,11 @@ metadata:
   name: "tunnel-{{ .Values.homeassistant.name }}-config"
 data:
   config.yaml: |
-    tunnel: home_assistant
+    tunnel: {{ .Values.homeassistant.tunnel.cloudflare_name }}
     credentials-file: /etc/cloudflared/creds/credentials.json
     metrics: 0.0.0.0:2000
     no-autoupdate: true
     ingress:
-    - hostname: homeassistant.pheliperocha.com
-      service: http://homeassistant.home-server.svc.cluster.local.:8123
+    - hostname: {{ .Values.homeassistant.publicHostname }}
+      service: http://{{ .Values.homeassistant.name }}-service.home-server.svc.cluster.local.:8123
     - service: http_status:404
