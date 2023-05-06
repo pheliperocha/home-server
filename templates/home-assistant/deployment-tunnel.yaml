@@ -53,12 +53,6 @@ spec:
       volumes:
       - name: creds
         secret:
-          # By default, the credentials file will be created under ~/.cloudflared/<tunnel ID>.json
-          # when you run `cloudflared tunnel create`. You can move it into a secret by using:
-          # ```sh
-          # kubectl create secret generic tunnel-credentials \
-          # --from-file=credentials.json=/Users/yourusername/.cloudflared/<tunnel ID>.json
-          # ```
           secretName: "tunnel-{{ .Values.homeassistant.name }}-credentials"
       - name: "tunnel-{{ .Values.homeassistant.name }}-config"
         configMap:
@@ -81,3 +75,11 @@ data:
     - hostname: {{ .Values.homeassistant.publicHostname }}
       service: http://{{ .Values.homeassistant.name }}-service.home-server.svc.cluster.local.:8123
     - service: http_status:404
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "tunnel-{{ .Values.homeassistant.name }}-credentials"
+type: Opaque
+data:
+  credentials.json: {{ .Values.homeassistant.tunnel.credentials | toJson | b64enc }}
