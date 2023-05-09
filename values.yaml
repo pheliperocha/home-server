@@ -18,6 +18,7 @@ nodered:
 
 drone:
   name: drone
+  localHostname: drone.local
   tunnel:
     cloudflare_name: drone
   hostAliases: []
