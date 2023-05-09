@@ -17,6 +17,9 @@ nodered:
     annotations: {}
 
 drone:
+  name: drone
+  tunnel:
+    cloudflare_name: drone
   hostAliases: []
   image:
     registry: docker.io
