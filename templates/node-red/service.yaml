@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.nodered.name }}
+  name: {{ .Values.nodered.name }}-service
   labels:
     {{- include "nodered.labels" . | nindent 4 }}
 spec:

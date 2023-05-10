@@ -11,6 +11,7 @@ homeassistant:
 
 nodered:
   name: nodered
+  localHostname: nodered.local
   replicaCount: 1
   serviceAccount:
     create: true

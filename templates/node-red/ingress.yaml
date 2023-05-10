@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.nodered.name }}-ingress
+spec:
+  rules:
+    - host: {{ .Values.nodered.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.nodered.name }}-service
+                port:
+                  number: 1880
