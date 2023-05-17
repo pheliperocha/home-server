@@ -59,11 +59,11 @@ spec:
             - mountPath: /config
               name: {{ .Values.qbittorrent.name }}-config-persistent-volume
             - mountPath: /downloads
-              name: {{ .Values.qbittorrent.name }}-downloads-persistent-volume
+              name: nfs-media-pvc
       volumes:
         - name: {{ .Values.qbittorrent.name }}-config-persistent-volume
           persistentVolumeClaim:
             claimName: {{ .Values.qbittorrent.name }}-config-pv-claim
-        - name: {{ .Values.qbittorrent.name }}-downloads-persistent-volume
+        - name: nfs-media-pvc
           persistentVolumeClaim:
-            claimName: {{ .Values.qbittorrent.name }}-downloads-pv-claim
+            claimName: nfs-media-pvc

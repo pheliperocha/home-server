@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi-media
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.1.12
+  share: /vol/nfs/media
+  subDir: /
+  mountPermissions: "0777"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - hard
+  - nfsvers=4.1
