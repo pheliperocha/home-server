@@ -192,3 +192,7 @@ qbittorrent:
   replicaCount: 1
   serviceAccount:
     annotations: {}
+
+kubernetesDashboard:
+  name: kubernetes-dashboard
+  localHostname: k8s.local

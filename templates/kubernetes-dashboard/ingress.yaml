@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.kubernetesDashboard.name }}-ingress
+  namespace: {{ .Values.kubernetesDashboard.name }}
+spec:
+  rules:
+    - host: {{ .Values.kubernetesDashboard.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.kubernetesDashboard.name }}
+                port:
+                  number: 80
