@@ -1,0 +1,45 @@
+import { Injectable } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { LaunchCommand } from './launch.command';
+import { EnqueuLaunchProcessDto } from './launch.dto';
+import { v4 as uuid4 } from 'uuid';
+import { LaunchProcessLogRepository } from './repository/launchProcessLogRepository';
+
+@Injectable()
+export class AppService {
+  constructor(
+    private commandBus: CommandBus,
+    private launchProcessLogRepository: LaunchProcessLogRepository,
+  ) {}
+
+  getHello(): string {
+    return 'Drone Launcher Service v0.0.1';
+  }
+
+  enqueuLaunchProcess({
+    appName,
+    commitId,
+    target,
+  }: EnqueuLaunchProcessDto): string {
+    const processId = uuid4();
+
+    this.commandBus.execute(
+      new LaunchCommand(processId, appName, commitId, target),
+    );
+
+    return processId;
+  }
+
+  async getStatus(processId: string): Promise<string | null> {
+    console.log(processId);
+
+    const result = await this.launchProcessLogRepository.getOldest(processId);
+    if (!result) return;
+
+    if (result.log !== 'Done!') {
+      await this.launchProcessLogRepository.markAsFetched(result.id);
+    }
+
+    return result.log;
+  }
+}
