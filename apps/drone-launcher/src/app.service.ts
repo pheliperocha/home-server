@@ -31,12 +31,10 @@ export class AppService {
   }
 
   async getStatus(processId: string): Promise<string | null> {
-    console.log(processId);
-
     const result = await this.launchProcessLogRepository.getOldest(processId);
     if (!result) return;
 
-    if (result.log !== 'Done!') {
+    if (!['Done!', 'Error!'].includes(result.log)) {
       await this.launchProcessLogRepository.markAsFetched(result.id);
     }
 

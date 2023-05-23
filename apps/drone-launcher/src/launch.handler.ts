@@ -11,7 +11,7 @@ import { RepositoryAllowedService } from './repositoryAllowedService.service';
 
 @CommandHandler(LaunchCommand)
 export class LaunchHandler implements ICommandHandler<LaunchCommand> {
-  private readonly folder = '/home/pheliperocha/www/test-clone';
+  private readonly folder = '/tmp';
 
   constructor(
     private launchProcessLogRepository: LaunchProcessLogRepository,
@@ -43,6 +43,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
 
       return;
     } catch (err) {
+      await this.launchProcessLogRepository.save(pid, 'Error!');
       console.error(err);
     }
   }

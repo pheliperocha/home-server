@@ -31,7 +31,6 @@ export class AppController {
       enqueuLaunchProcessDto,
     );
 
-    console.log(processId);
     return processId;
   }
 }
