@@ -14,44 +14,56 @@ echo "Target: $target"
 echo ""
 
 retry_delay="${PLUGIN_RETRY_DELAY:-0.5}"
-max_retries="${PLUGIN_MAX_RETRIES:-120}"
+max_retries="${PLUGIN_MAX_RETRIES:-60}"
 
 launchUrl="$baseUrl/launch"
-getStatusUrl="$baseUrl/status/$processId"
 headers="Authorization: Bearer $token"
 
 response=""
 retry_count=0
 
-echo $launchUrl
-
-processId=$(curl -s -X POST \
+response=$(curl -s -o - -w "%{http_code}" -X POST \
   "$launchUrl" \
   --header "$headers" \
   --header "Content-Type: application/json" \
   --data-raw "{
-  "appName": "$appName",
-  "commitId": "$commitId",
-  "target": "$target"
-}")
+    \"appName\": \"$appName\",
+    \"commitId\": \"$commitId\",
+    \"target\": \"$target\"
+  }")
 
-if [ -z "$processId" ]; then
-  echo "Failed to launch process"
+status_code=$(expr substr "$response" $(expr length "$response" - 2) 3)
+body=${response%???}
+
+echo ""
+echo "Launching request..."
+echo "Status Code: $status_code"
+echo "Response Body: $body"
+echo ""
+
+if [ "$status_code" -ne 201 ]; then
+  echo "Failed to launch process!"
   exit 1
 fi
 
+processId=$body
 echo "Process ID: $processId"
+getStatusUrl="$baseUrl/status/$processId"
 
 while true; do
-  response=$(curl -s --request GET --url "$getStatusUrl" --header "$headers")
-  if [ "$response" = "Done!" ]; then
-    echo $response
+  response=$(curl -s -o - -w "%{http_code}" -X GET "$getStatusUrl" --header "$headers")
+
+  status_code=$(expr substr "$response" $(expr length "$response" - 2) 3)
+  body=${response%???}
+
+  if [ "$body" = "Done!" ]; then
+    echo $body
     break
   fi
 
-  if [ -n "$response" ]; then
+  if [ "$status_code" -eq 200 ]; then
     retry_count=0
-    echo $response
+    echo $body
   fi
 
   if [ "$retry_count" -eq "$max_retries" ]; then
@@ -59,7 +71,7 @@ while true; do
     break
   fi
 
-  if [ -z "$response" ]; then
+  if [ "$status_code" -ne 200 ]; then
     retry_count=$((retry_count + 1))
   fi
 
