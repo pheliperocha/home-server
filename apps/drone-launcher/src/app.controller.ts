@@ -18,6 +18,7 @@ export class AppController {
   async getStatus(
     @Param() { processId }: GetStatusByProcessIdDto,
   ): Promise<string> {
+    console.log(`Get Status ${processId}`);
     return this.appService.getStatus(processId);
   }
 
@@ -26,6 +27,10 @@ export class AppController {
   async enqueuLaunchProcess(
     @Body() enqueuLaunchProcessDto: EnqueuLaunchProcessDto,
   ): Promise<string> {
+    console.log(
+      `Launching ${enqueuLaunchProcessDto.appName} to ${enqueuLaunchProcessDto.target}`,
+    );
+
     // TODO: Use queue instead like Bull with Redis
     const processId = this.appService.enqueuLaunchProcess(
       enqueuLaunchProcessDto,
