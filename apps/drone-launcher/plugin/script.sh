@@ -7,7 +7,7 @@ commitId="${PLUGIN_COMMIT_ID:?Error: PLUGIN_COMMIT_ID environment variable is no
 target="${PLUGIN_TARGET:?Error: PLUGIN_TARGET environment variable is not set or empty}"
 
 echo ""
-echo "Version v1.0.0"
+echo "Version v1.0.1"
 echo ""
 echo "Base URL: $baseUrl"
 echo "App Name: $appName"
@@ -58,24 +58,23 @@ while true; do
   status_code=$(expr substr "$response" $(expr length "$response" - 2) 3)
   body=${response%???}
 
-  if [ "$body" = "Done!" ]; then
+  if [ "$body" = "Done!" ] || [ "$body" = "Error!" ]; then
     echo $body
     break
   fi
 
-  if [ "$status_code" -eq 200 ]; then
+  if [ "$status_code" -eq 200 ] && [ -n "$body" ]; then
     retry_count=0
     echo $body
   fi
 
   if [ "$retry_count" -eq "$max_retries" ]; then
+    echo ""
+    echo "Last response: $body"
     echo "Max retries reached. Exiting..."
     break
   fi
 
-  if [ "$status_code" -ne 200 ]; then
-    retry_count=$((retry_count + 1))
-  fi
-
+  retry_count=$((retry_count + 1))
   sleep $retry_delay
 done
