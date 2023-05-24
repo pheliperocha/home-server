@@ -139,9 +139,11 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       const namespace = `${appName}-${target}`;
       const releaseName = `${appName}-${target}`;
       const command = `helm secrets upgrade --install -n ${namespace} ${releaseName} . --values values.yaml --values secrets.yaml --values values.${target}.yaml --values secrets.${target}.yaml`;
-      // TODO: Run helm secrets update
 
-      console.log(command);
+      const asyncExec = promisify(exec);
+      await asyncExec(command, {
+        cwd: `${this.folder}/${pid}/deploy`,
+      });
 
       await this.launchProcessLogRepository.save(
         pid,
