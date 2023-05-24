@@ -186,6 +186,9 @@ drone-runner-docker:
     DRONE_NAMESPACE_DEFAULT: home-server
     DRONE_RUNNER_NETWORK_OPTS: "com.docker.network.driver.mtu:1500"
 
+drone_launcher:
+  name: drone-launcher
+
 qbittorrent:
   name: qbittorrent
   localHostname: qbittorrent.local
