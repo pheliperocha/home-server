@@ -7,7 +7,7 @@ commitId="${PLUGIN_COMMIT_ID:?Error: PLUGIN_COMMIT_ID environment variable is no
 target="${PLUGIN_TARGET:?Error: PLUGIN_TARGET environment variable is not set or empty}"
 
 echo ""
-echo "Version v1.0.2"
+echo "Version v1.0.2" # TODO: Automate versioning
 echo ""
 echo "Base URL: $baseUrl"
 echo "App Name: $appName"
