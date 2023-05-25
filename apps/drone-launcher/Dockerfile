@@ -47,9 +47,6 @@ RUN . /envfile && echo $ARCH && \
   chmod +x /usr/bin/helm && \
   rm -rf linux-${ARCH}
 
-# Add helm-secrets plugin
-RUN helm plugin install https://github.com/jkroepke/helm-secrets --version v${HELM_SECRETS_VERSION}
-
 # Install kubectl
 RUN . /envfile && echo $ARCH && \
   curl -sLO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl && \
@@ -67,11 +64,14 @@ RUN apk add --update --no-cache python3 && \
 RUN curl -fsSL https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux \
   -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops
 
+USER node
+
+# Add helm-secrets plugin
+RUN helm plugin install https://github.com/jkroepke/helm-secrets --version v${HELM_SECRETS_VERSION}
+
 WORKDIR /app
 
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 COPY --chown=node:node --from=builder /app/dist ./dist
-
-USER node
 
 ENTRYPOINT [ "/bin/sh" ]
