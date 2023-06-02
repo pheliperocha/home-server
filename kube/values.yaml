@@ -188,6 +188,7 @@ drone-runner-docker:
 
 drone_launcher:
   name: drone-launcher
+  port: 80
 
 qbittorrent:
   name: qbittorrent
