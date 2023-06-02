@@ -3,19 +3,19 @@ import { ConfigService } from '@nestjs/config';
 import { IConfig } from './config/configuration';
 
 @Injectable()
-export class AuthGuard {
+export class AppGuard {
   constructor(private configService: ConfigService<IConfig>) {}
 
   public canActivate(context: ExecutionContext): boolean {
-    const { headers } = context.switchToHttp().getRequest();
+    const { body } = context.switchToHttp().getRequest();
 
-    if (
-      !headers.authorization ||
-      headers.authorization !== `Bearer ${this.configService.get('token')}`
-    ) {
-      return false;
+    const isAppAllowed =
+      this.configService.get<string>('appConfigMap')[body.appName];
+
+    if (isAppAllowed) {
+      return true;
     }
 
-    return true;
+    return false;
   }
 }

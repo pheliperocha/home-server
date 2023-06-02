@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
 import { EnqueuLaunchProcessDto, GetStatusByProcessIdDto } from './launch.dto';
-import { RepoGuard } from './repo.guard';
+import { AppGuard } from './app.guard';
 
 @Controller()
 export class AppController {
@@ -23,7 +23,7 @@ export class AppController {
   }
 
   @Post('/launch')
-  @UseGuards(AuthGuard, RepoGuard)
+  @UseGuards(AuthGuard, AppGuard)
   async enqueuLaunchProcess(
     @Body() enqueuLaunchProcessDto: EnqueuLaunchProcessDto,
   ): Promise<string> {

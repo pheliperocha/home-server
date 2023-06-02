@@ -30,7 +30,7 @@ spec:
         - node ./dist/main.js
         ports:
           - name: http
-            containerPort: 3000
+            containerPort: 80
             protocol: TCP
         livenessProbe:
           httpGet:
@@ -59,11 +59,6 @@ spec:
               secretKeyRef:
                 name: "{{ .Values.drone_launcher.name }}-secrets"
                 key: GIT_TOKEN
-          - name: REPOSITORIES_ALLOWED
-            valueFrom:
-              secretKeyRef:
-                name: "{{ .Values.drone_launcher.name }}-secrets"
-                key: REPOSITORIES_ALLOWED
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:

@@ -8,12 +8,15 @@ import { DatabaseConnectionService } from './infra/databaseConnection.service';
 import { LaunchProcessLog } from './launchProcess.entity';
 import { LaunchProcessLogRepository } from './repository/launchProcessLogRepository';
 import { ConfigModule } from '@nestjs/config';
-import { RepositoryAllowedService } from './repositoryAllowedService.service';
+import { RepositoryMapService } from './repositoryMap.service';
+import configuration from './config/configuration';
+import { NamespaceMapService } from './namespaceMap.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConnectionService,
@@ -26,7 +29,8 @@ import { RepositoryAllowedService } from './repositoryAllowedService.service';
     AppService,
     LaunchHandler,
     LaunchProcessLogRepository,
-    RepositoryAllowedService,
+    RepositoryMapService,
+    NamespaceMapService,
   ],
 })
 export class AppModule {}
