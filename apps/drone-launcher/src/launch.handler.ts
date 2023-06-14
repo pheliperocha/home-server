@@ -38,6 +38,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       await this.cloneRepository(pid, repository);
       await this.checkoutCommitId(pid, commitId);
       await this.setImageTag(pid, commitId);
+      // TODO: Set app version
       await this.helmRelease(pid, appName, target);
 
       await this.launchProcessLogRepository.save(pid, 'Done!');
