@@ -1,0 +1,28 @@
+apiVersion: k8up.io/v1
+kind: Schedule
+metadata:
+  name: schedule-backup
+spec:
+  backend:
+    s3:
+      endpoint: s3:https://s3.sa-east-1.amazonaws.com
+      bucket: home-server-backups
+      accessKeyIDSecretRef:
+        name: k8up-secrets
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretRef:
+        name: k8up-secrets
+        key: AWS_SECRET_ACCESS_KEY
+    repoPasswordSecretRef:
+      name: k8up-secrets
+      key: RESTIC_REPOSITORY_PASSWORD
+  backup:
+    schedule: '0 2 * * 1'
+    failedJobsHistoryLimit: 2
+    successfulJobsHistoryLimit: 2
+  check:
+    schedule: '0 1 * * 1'
+  prune:
+    schedule: '0 1 * * 0'
+    retention:
+      keepLast: 5
