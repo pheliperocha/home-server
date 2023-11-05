@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { IConfig } from './config/configuration';
+import { IConfig } from '../config/configuration';
 
 export type RepositoryAllowed = Array<{
   appName: string;

@@ -20,3 +20,7 @@ export class GetStatusByProcessIdDto {
   @IsString()
   processId: string;
 }
+
+export const isValidTargetType = (target: string): target is TargetType => {
+  return Object.values(TargetType).includes(target as TargetType);
+};
