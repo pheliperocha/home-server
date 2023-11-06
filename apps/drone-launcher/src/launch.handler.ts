@@ -2,26 +2,27 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LaunchCommand } from './launch.command';
 import { LaunchProcessLogRepository } from './repository/launchProcessLogRepository';
 import { ConfigService } from '@nestjs/config';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import * as fs from 'fs';
 import { TargetType } from './launch.dto';
-import { RepositoryMapService } from './repositoryMap.service';
+import { RepositoryMapService } from './services/repositoryMap.service';
 import { IConfig } from './config/configuration';
-import { NamespaceMapService } from './namespaceMap.service';
+import { NamespaceMapService } from './services/namespaceMap.service';
+import { GitService } from './services/git.service';
+import { FileService } from './services/file.service';
+import { HelmService } from './services/helm.service';
 
 @CommandHandler(LaunchCommand)
 export class LaunchHandler implements ICommandHandler<LaunchCommand> {
-  private readonly folder = '/tmp';
-
   constructor(
     private launchProcessLogRepository: LaunchProcessLogRepository,
     private configService: ConfigService<IConfig>,
     private repositoryMap: RepositoryMapService,
     private namespaceMap: NamespaceMapService,
+    private gitService: GitService,
+    private fileService: FileService,
+    private helmService: HelmService,
   ) {}
 
-  async execute({
+  public async execute({
     processId: pid,
     appName,
     commitId,
@@ -30,7 +31,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     try {
       await this.launchProcessLogRepository.save(
         pid,
-        'Starting launch process',
+        `Starting launch process: ${pid}`,
       );
 
       const repository = this.repositoryMap.getRepositoryByAppName(appName);
@@ -38,7 +39,6 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       await this.cloneRepository(pid, repository);
       await this.checkoutCommitId(pid, commitId);
       await this.setImageTag(pid, commitId);
-      // TODO: Set app version
       await this.helmRelease(pid, appName, target);
 
       await this.launchProcessLogRepository.save(pid, 'Done!');
@@ -50,7 +50,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     }
   }
 
-  async cloneRepository(pid: string, repository: string) {
+  private async cloneRepository(pid: string, repository: string) {
     try {
       await this.launchProcessLogRepository.save(
         pid,
@@ -60,10 +60,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       const gitToken = this.configService.get('gitToken');
       const url = `https://${gitToken}@github.com/${repository}.git`;
 
-      const asyncExec = promisify(exec);
-      await asyncExec(`git clone ${url} ${pid}`, {
-        cwd: this.folder,
-      });
+      await this.gitService.clone(url, pid);
 
       await this.launchProcessLogRepository.save(
         pid,
@@ -79,17 +76,14 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     }
   }
 
-  async checkoutCommitId(pid: string, commitId: string) {
+  private async checkoutCommitId(pid: string, commitId: string) {
     try {
       await this.launchProcessLogRepository.save(
         pid,
         `Checking out to commit ID ${commitId}...`,
       );
 
-      const asyncExec = promisify(exec);
-      await asyncExec(`git checkout ${commitId}`, {
-        cwd: `${this.folder}/${pid}`,
-      });
+      await this.gitService.checkout(commitId, pid);
 
       await this.launchProcessLogRepository.save(
         pid,
@@ -105,17 +99,22 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     }
   }
 
-  async setImageTag(pid: string, commitId: string) {
+  private async setImageTag(pid: string, commitId: string) {
     try {
       await this.launchProcessLogRepository.save(
         pid,
         `Updating image tag to ${commitId}...`,
       );
 
-      const valuesPath = `${this.folder}/${pid}/kube/values.yaml`;
-      const data = fs.readFileSync(valuesPath, 'utf8');
-      const newData = data.replace(/\btag: latest\b/gim, `tag: ${commitId}`);
-      fs.writeFileSync(valuesPath, newData, 'utf-8');
+      const valuesPath = `${this.configService.get(
+        'tempFolder',
+      )}/${pid}/kube/values.yaml`;
+
+      await this.fileService.replaceInFile(
+        valuesPath,
+        /\btag: latest\b/gim,
+        `tag: ${commitId}`,
+      );
 
       await this.launchProcessLogRepository.save(
         pid,
@@ -131,7 +130,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     }
   }
 
-  async helmRelease(pid: string, appName: string, target: TargetType) {
+  private async helmRelease(pid: string, appName: string, target: TargetType) {
     try {
       await this.launchProcessLogRepository.save(
         pid,
@@ -140,13 +139,7 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
 
       const namespacePrefix = this.namespaceMap.getNamespaceByAppName(appName);
       const namespace = `${namespacePrefix}-${target}`;
-      const releaseName = `${appName}-${target}`;
-      const command = `helm secrets upgrade --install -n ${namespace} ${releaseName} . --values values.yaml --values secrets.yaml --values values.${target}.yaml --values secrets.${target}.yaml`;
-
-      const asyncExec = promisify(exec);
-      await asyncExec(command, {
-        cwd: `${this.folder}/${pid}/kube`,
-      });
+      await this.helmService.release(appName, namespace, target, pid);
 
       await this.launchProcessLogRepository.save(
         pid,

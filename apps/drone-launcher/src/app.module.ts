@@ -8,9 +8,12 @@ import { DatabaseConnectionService } from './infra/databaseConnection.service';
 import { LaunchProcessLog } from './launchProcess.entity';
 import { LaunchProcessLogRepository } from './repository/launchProcessLogRepository';
 import { ConfigModule } from '@nestjs/config';
-import { RepositoryMapService } from './repositoryMap.service';
+import { RepositoryMapService } from './services/repositoryMap.service';
 import configuration from './config/configuration';
-import { NamespaceMapService } from './namespaceMap.service';
+import { NamespaceMapService } from './services/namespaceMap.service';
+import { FileService } from './services/file.service';
+import { GitService } from './services/git.service';
+import { HelmService } from './services/helm.service';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { NamespaceMapService } from './namespaceMap.service';
     LaunchProcessLogRepository,
     RepositoryMapService,
     NamespaceMapService,
+    FileService,
+    GitService,
+    HelmService,
   ],
 })
 export class AppModule {}

@@ -1,7 +1,9 @@
 export interface IConfig {
   gitToken: string;
   token: string;
+  webhookSecret: string;
 
+  tempFolder: string;
   appConfigMap: {
     [appName: string]: {
       repository: string;
@@ -10,10 +12,13 @@ export interface IConfig {
   };
 }
 
+// TODO: Valid that the envs are properly setted
 export default (): IConfig => ({
   gitToken: process.env.GIT_TOKEN,
   token: process.env.TOKEN,
+  webhookSecret: process.env.WEBHOOK_SECRET,
 
+  tempFolder: process.env.TEMP_FOLDER || '/tmp',
   appConfigMap: {
     'finance-project': {
       repository: 'pheliperocha/finance-project',

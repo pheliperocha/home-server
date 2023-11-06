@@ -10,12 +10,13 @@ export class AppGuard {
     const { body } = context.switchToHttp().getRequest();
 
     const isAppAllowed =
-      this.configService.get<string>('appConfigMap')[body.appName];
+      this.configService.get<string>('appConfigMap')[body?.data?.app_name];
 
-    if (isAppAllowed) {
-      return true;
+    if (!isAppAllowed) {
+      console.error(`Invalid app name: ${body?.data?.app_name}`);
+      return false;
     }
 
-    return false;
+    return true;
   }
 }

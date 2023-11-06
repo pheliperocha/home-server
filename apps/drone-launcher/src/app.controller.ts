@@ -1,8 +1,13 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from './auth.guard';
-import { EnqueuLaunchProcessDto, GetStatusByProcessIdDto } from './launch.dto';
+import {
+  EnqueuLaunchProcessDto,
+  GetStatusByProcessIdDto,
+  isValidTargetType,
+} from './launch.dto';
 import { AppGuard } from './app.guard';
+import { GithubHookBody } from './githubHookBody.type';
 
 @Controller()
 export class AppController {
@@ -22,20 +27,29 @@ export class AppController {
     return this.appService.getStatus(processId);
   }
 
-  @Post('/launch')
+  @Post('/hook')
   @UseGuards(AuthGuard, AppGuard)
-  async enqueuLaunchProcess(
-    @Body() enqueuLaunchProcessDto: EnqueuLaunchProcessDto,
-  ): Promise<string> {
-    console.log(
-      `Launching ${enqueuLaunchProcessDto.appName} to ${enqueuLaunchProcessDto.target}`,
-    );
+  async test(@Body() body: GithubHookBody): Promise<string> {
+    if (
+      !body?.data?.app_name ||
+      !body?.data?.target ||
+      !body?.head_commit?.id
+    ) {
+      console.error('Missing required data', { body: JSON.stringify(body) });
+      return;
+    }
 
-    // TODO: Use queue instead like Bull with Redis
-    const processId = this.appService.enqueuLaunchProcess(
-      enqueuLaunchProcessDto,
-    );
+    if (!isValidTargetType(body.data.target)) {
+      console.log(`Invalid target type: ${body.data.target}`);
+      return;
+    }
 
-    return processId;
+    const enqueuLaunchProcessDto: EnqueuLaunchProcessDto = {
+      appName: body.data.app_name,
+      target: body.data.target,
+      commitId: body.head_commit.id,
+    };
+
+    return this.appService.enqueuLaunchProcess(enqueuLaunchProcessDto);
   }
 }
