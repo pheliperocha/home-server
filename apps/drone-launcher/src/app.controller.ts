@@ -47,7 +47,7 @@ export class AppController {
     const enqueuLaunchProcessDto: EnqueuLaunchProcessDto = {
       appName: body.data.app_name,
       target: body.data.target,
-      commitId: body.head_commit.id,
+      commitId: body.data?.commitId || body.head_commit.id,
     };
 
     return this.appService.enqueuLaunchProcess(enqueuLaunchProcessDto);

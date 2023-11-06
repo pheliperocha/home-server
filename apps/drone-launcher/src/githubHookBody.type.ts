@@ -19,6 +19,7 @@ export interface GithubHookBody {
 export interface Data {
   target?: string;
   app_name?: string;
+  commitId?: string;
 }
 
 export interface HeadCommit {
