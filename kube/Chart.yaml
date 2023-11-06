@@ -11,12 +11,6 @@ maintainers:
   - name: Phelipe Rocha
     url: https://pheliperocha.com
 dependencies:
-  - name: drone
-    version: "0.6.4"
-    repository: "https://charts.drone.io"
-  - name: drone-runner-docker
-    version: "0.6.1"
-    repository: "https://charts.drone.io"
   - name: k8up
     version: "4.4.3"
     repository: "https://k8up-io.github.io/k8up"

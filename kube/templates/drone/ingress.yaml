@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.drone.name }}-ingress
+  name: {{ .Values.drone_launcher.name }}-ingress
 spec:
   rules:
-    - host: {{ .Values.drone.localHostname }}
+    - host: {{ .Values.drone_launcher.localHostname }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.drone.name }}
+                name: {{ .Values.drone_launcher.name }}
                 port:
-                  number: {{ .Values.drone.service.port }}
+                  number: {{ .Values.drone_launcher.port }}

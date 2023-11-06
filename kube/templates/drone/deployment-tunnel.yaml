@@ -2,26 +2,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "tunnel-{{ .Values.drone.name }}"
+  name: "tunnel-{{ .Values.drone_launcher.name }}"
   labels:
-    {{- include "drone.labels" . | nindent 4 }}
-    tunnel: "tunnel-{{ .Values.drone.name }}"
+    {{- include "drone_launcher.labels" . | nindent 4 }}
+    tunnel: "tunnel-{{ .Values.drone_launcher.name }}"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: "tunnel-{{ .Values.drone.name }}"
+      app.kubernetes.io/name: "tunnel-{{ .Values.drone_launcher.name }}"
       app.kubernetes.io/instance: {{ .Release.Name }}
-      tunnel: "tunnel-{{ .Values.drone.name }}"
+      tunnel: "tunnel-{{ .Values.drone_launcher.name }}"
   replicas: 1
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: "tunnel-{{ .Values.drone.name }}"
+        app.kubernetes.io/name: "tunnel-{{ .Values.drone_launcher.name }}"
         app.kubernetes.io/instance: {{ .Release.Name }}
-        tunnel: "tunnel-{{ .Values.drone.name }}"
+        tunnel: "tunnel-{{ .Values.drone_launcher.name }}"
     spec:
       containers:
-      - name: "tunnel-{{ .Values.drone.name }}"
+      - name: "tunnel-{{ .Values.drone_launcher.name }}"
         image: cloudflare/cloudflared:latest
         args:
         - tunnel
@@ -41,7 +41,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         volumeMounts:
-        - name: "tunnel-{{ .Values.drone.name }}-config"
+        - name: "tunnel-{{ .Values.drone_launcher.name }}-config"
           mountPath: /etc/cloudflared/config
           readOnly: true
         # Each tunnel has an associated "credentials file" which authorizes machines
@@ -53,10 +53,10 @@ spec:
       volumes:
       - name: creds
         secret:
-          secretName: "tunnel-{{ .Values.drone.name }}-credentials"
-      - name: "tunnel-{{ .Values.drone.name }}-config"
+          secretName: "tunnel-{{ .Values.drone_launcher.name }}-credentials"
+      - name: "tunnel-{{ .Values.drone_launcher.name }}-config"
         configMap:
-          name: "tunnel-{{ .Values.drone.name }}-config"
+          name: "tunnel-{{ .Values.drone_launcher.name }}-config"
           items:
           - key: config.yaml
             path: config.yaml
@@ -64,22 +64,22 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "tunnel-{{ .Values.drone.name }}-config"
+  name: "tunnel-{{ .Values.drone_launcher.name }}-config"
 data:
   config.yaml: |
-    tunnel: {{ .Values.drone.tunnel.cloudflare_name }}
+    tunnel: {{ .Values.drone_launcher.tunnel.cloudflare_name }}
     credentials-file: /etc/cloudflared/creds/credentials.json
     metrics: 0.0.0.0:2000
     no-autoupdate: true
     ingress:
-    - hostname: {{ .Values.drone.env.DRONE_SERVER_HOST }}
+    - hostname: {{ .Values.drone_launcher.publicHostname }}
       service: http://{{ .Values.drone_launcher.name }}-service.home-server.svc.cluster.local.:{{ .Values.drone_launcher.port }}
     - service: http_status:404
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: "tunnel-{{ .Values.drone.name }}-credentials"
+  name: "tunnel-{{ .Values.drone_launcher.name }}-credentials"
 type: Opaque
 data:
-  credentials.json: {{ .Values.drone.tunnel.credentials | toJson | b64enc }}
+  credentials.json: {{ .Values.drone_launcher.tunnel.credentials | toJson | b64enc }}

@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: {{ .Values.drone_launcher.name }}-clusterrole
   labels:
-    {{- include "drone.labels" . | nindent 4 }}
+    {{- include "drone_launcher.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

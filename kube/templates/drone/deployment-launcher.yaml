@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.drone_launcher.name }}
   labels:
-    {{- include "drone.labels" . | nindent 4 }}
+    {{- include "drone_launcher.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

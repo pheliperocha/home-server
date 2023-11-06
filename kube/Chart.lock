@@ -1,12 +1,6 @@
 dependencies:
-- name: drone
-  repository: https://charts.drone.io
-  version: 0.6.4
-- name: drone-runner-docker
-  repository: https://charts.drone.io
-  version: 0.6.1
 - name: k8up
   repository: https://k8up-io.github.io/k8up
   version: 4.4.3
-digest: sha256:8576c1c7d0ebcb737ea6d7a29f8c9c403ec06b83d035d8d917461703f8433e1d
-generated: "2023-10-24T17:39:01.506265731-03:00"
+digest: sha256:fd60aab79cac322cf8a654e42bd98f0ab1480679d0115d4316a8af2fc5ffd604
+generated: "2023-11-06T12:07:53.187635452-03:00"
