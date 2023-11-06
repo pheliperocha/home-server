@@ -61,6 +61,11 @@ spec:
               secretKeyRef:
                 name: "{{ .Values.drone_launcher.name }}-secrets"
                 key: GIT_TOKEN
+          - name: WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Values.drone_launcher.name }}-secrets"
+                key: WEBHOOK_SECRET
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:

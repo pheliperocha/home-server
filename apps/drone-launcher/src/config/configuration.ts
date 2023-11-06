@@ -12,6 +12,7 @@ export interface IConfig {
   };
 }
 
+// TODO: Valid that the envs are properly setted
 export default (): IConfig => ({
   gitToken: process.env.GIT_TOKEN,
   token: process.env.TOKEN,
