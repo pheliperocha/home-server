@@ -1,9 +1,11 @@
 apiVersion: k8up.io/v1
-kind: Schedule
+kind: Backup
 metadata:
-  name: schedule-backup
-  namespace: home-server
+  name: manual-backup
+  namespace: finance-project-staging
 spec:
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
   backend:
     s3:
       endpoint: https://s3.sa-east-1.amazonaws.com
@@ -17,13 +19,3 @@ spec:
     repoPasswordSecretRef:
       name: k8up-secrets
       key: RESTIC_REPOSITORY_PASSWORD
-  check:
-    schedule: '0 1 * * 1' # At 01:00 on Monday
-  backup:
-    schedule: '0 2 * * 1' # At 02:00 on Monday
-    failedJobsHistoryLimit: 2
-    successfulJobsHistoryLimit: 2
-  prune:
-    schedule: '0 3 * * 1' # At 03:00 on Monday
-    retention:
-      keepLast: 5

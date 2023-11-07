@@ -35,3 +35,10 @@ qbittorrent:
 kubernetesDashboard:
   name: kubernetes-dashboard
   localHostname: k8s.local
+
+postgresql:
+  finance-project-staging:
+    # TODO: Custom username
+    # TODO: Custom password
+    # TODO: Custom database
+    # TODO: primary.annotations for k8up backup
