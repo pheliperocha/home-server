@@ -1,3 +1,4 @@
+{{- if .Values.qbittorrent.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -67,3 +68,4 @@ spec:
         - name: nfs-media-pvc
           persistentVolumeClaim:
             claimName: nfs-media-pvc
+{{- end }}

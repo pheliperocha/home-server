@@ -2,5 +2,8 @@ dependencies:
 - name: k8up
   repository: https://k8up-io.github.io/k8up
   version: 4.4.3
-digest: sha256:fd60aab79cac322cf8a654e42bd98f0ab1480679d0115d4316a8af2fc5ffd604
-generated: "2023-11-06T12:07:53.187635452-03:00"
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.5.5
+digest: sha256:7fd223b9023d69c64ac5a1012ab2ada7237da793e3f35e0f12097ae30f9eb051
+generated: "2023-11-07T18:40:18.692147589-03:00"

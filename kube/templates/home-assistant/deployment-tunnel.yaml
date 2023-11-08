@@ -1,4 +1,5 @@
----
+{{- if .Values.homeassistant.enabled }}
+{{- if .Values.homeassistant.tunnel.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -83,3 +84,5 @@ metadata:
 type: Opaque
 data:
   credentials.json: {{ .Values.homeassistant.tunnel.credentials | toJson | b64enc }}
+{{- end }}
+{{- end }}

@@ -1,4 +1,5 @@
 homeassistant:
+  enabled: false
   name: homeassistant
   localHostname: homeassistant.local
   publicHostname: homeassistant.pheliperocha.com
@@ -7,9 +8,11 @@ homeassistant:
     create: true
     annotations: {}
   tunnel:
+    enabled: false
     cloudflare_name: home_assistant
 
 nodered:
+  enabled: false
   name: nodered
   localHostname: nodered.local
   replicaCount: 1
@@ -18,14 +21,17 @@ nodered:
     annotations: {}
 
 drone_launcher:
+  enabled: false
   name: drone-launcher
   port: 80
   publicHostname: drone.pheliperocha.com
   localHostname: drone.local
   tunnel:
+    enabled: false
     cloudflare_name: drone
 
 qbittorrent:
+  enabled: false
   name: qbittorrent
   localHostname: qbittorrent.local
   replicaCount: 1
@@ -33,11 +39,21 @@ qbittorrent:
     annotations: {}
 
 kubernetesDashboard:
+  enabled: false
   name: kubernetes-dashboard
   localHostname: k8s.local
 
-postgresql:
-  finance-project-staging:
+k8up:
+  enabled: false
+
+postgres-finance-project-staging:
+  enabled: true
+  namespace: finance-project-staging
+
+postgres-finance-project-production:
+  enabled: false
+
+# postgresql:
     # TODO: Custom username
     # TODO: Custom password
     # TODO: Custom database
