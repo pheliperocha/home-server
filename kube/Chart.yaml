@@ -18,10 +18,10 @@ dependencies:
   - name: postgresql
     version: "12.5.5"
     repository: "https://charts.bitnami.com/bitnami"
-    alias: postgres-finance-project-staging
-    condition: postgres-finance-project-staging.enabled
+    alias: pg-finance-project-staging
+    condition: pg-finance-project-staging.enabled
   - name: postgresql
     version: "12.5.5"
     repository: "https://charts.bitnami.com/bitnami"
-    alias: postgres-finance-project-production
-    condition: postgres-finance-project-production.enabled
+    alias: pg-finance-project-production
+    condition: pg-finance-project-production.enabled

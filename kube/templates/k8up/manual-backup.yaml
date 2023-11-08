@@ -1,8 +1,8 @@
+{{- if .Values.k8up.manualBackup }}
 apiVersion: k8up.io/v1
 kind: Backup
 metadata:
   name: manual-backup
-  namespace: finance-project-staging
 spec:
   failedJobsHistoryLimit: 2
   successfulJobsHistoryLimit: 2
@@ -19,3 +19,4 @@ spec:
     repoPasswordSecretRef:
       name: k8up-secrets
       key: RESTIC_REPOSITORY_PASSWORD
+{{- end }}

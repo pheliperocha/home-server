@@ -1,5 +1,5 @@
 homeassistant:
-  enabled: false
+  enabled: true
   name: homeassistant
   localHostname: homeassistant.local
   publicHostname: homeassistant.pheliperocha.com
@@ -8,11 +8,11 @@ homeassistant:
     create: true
     annotations: {}
   tunnel:
-    enabled: false
+    enabled: true
     cloudflare_name: home_assistant
 
 nodered:
-  enabled: false
+  enabled: true
   name: nodered
   localHostname: nodered.local
   replicaCount: 1
@@ -21,17 +21,17 @@ nodered:
     annotations: {}
 
 drone_launcher:
-  enabled: false
+  enabled: true
   name: drone-launcher
   port: 80
   publicHostname: drone.pheliperocha.com
   localHostname: drone.local
   tunnel:
-    enabled: false
+    enabled: true
     cloudflare_name: drone
 
 qbittorrent:
-  enabled: false
+  enabled: true
   name: qbittorrent
   localHostname: qbittorrent.local
   replicaCount: 1
@@ -39,22 +39,43 @@ qbittorrent:
     annotations: {}
 
 kubernetesDashboard:
-  enabled: false
+  enabled: true
   name: kubernetes-dashboard
   localHostname: k8s.local
 
 k8up:
-  enabled: false
-
-postgres-finance-project-staging:
   enabled: true
-  namespace: finance-project-staging
+  manualBackup: false
+  backend:
+    s3:
+      endpoint: https://s3.sa-east-1.amazonaws.com
+      bucket: home-server-backups
+      accessKeyIDSecretRef:
+        name: k8up-secrets
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretRef:
+        name: k8up-secrets
+        key: AWS_SECRET_ACCESS_KEY
+    repoPasswordSecretRef:
+      name: k8up-secrets
+      key: RESTIC_REPOSITORY_PASSWORD
 
-postgres-finance-project-production:
-  enabled: false
+nfs:
+  enabled: true
 
-# postgresql:
-    # TODO: Custom username
-    # TODO: Custom password
-    # TODO: Custom database
-    # TODO: primary.annotations for k8up backup
+pg-finance-project-staging:
+  enabled: true
+  auth:
+    database: fp_staging
+  primary:
+    annotations:
+      k8up.io/backup: "false"
+
+pg-finance-project-production:
+  enabled: true
+  auth:
+    database: fp_production
+  primary:
+    podAnnotations:
+      k8up.io/backupcommand: sh -c 'PGDATABASE="$POSTGRES_DB" PGUSER="$POSTGRES_USER" PGPASSWORD="$POSTGRES_PASSWORD" pg_dump --clean'
+      k8up.io/file-extension: .sql

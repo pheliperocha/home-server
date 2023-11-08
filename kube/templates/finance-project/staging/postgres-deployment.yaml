@@ -1,1 +1,0 @@
-{{- include "postgresql.deploy" (list . "namespace=finance-project-staging" "name=postgresql") | nindent 8 -}}
