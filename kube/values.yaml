@@ -60,6 +60,13 @@ k8up:
       name: k8up-secrets
       key: RESTIC_REPOSITORY_PASSWORD
 
+# Used for local testing
+minio:
+  enabled: false
+  persistence:
+    annotations:
+      k8up.io/backup: "false"
+
 nfs:
   enabled: true
 
@@ -68,8 +75,9 @@ pg-finance-project-staging:
   auth:
     database: fp_staging
   primary:
-    annotations:
-      k8up.io/backup: "false"
+    persistence:
+      annotations:
+        k8up.io/backup: "false"
 
 pg-finance-project-production:
   enabled: true

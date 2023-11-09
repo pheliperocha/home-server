@@ -1,0 +1,53 @@
+homeassistant:
+  enabled: false
+  tunnel:
+    enabled: false
+
+nodered:
+  enabled: false
+
+drone_launcher:
+  enabled: false
+  tunnel:
+    enabled: false
+
+qbittorrent:
+  enabled: false
+
+kubernetesDashboard:
+  enabled: false
+
+k8up:
+  enabled: true
+  manualBackup: false
+  awsAccessKeyId: minio
+  awsSecretAccessKey: minio123
+  resticRepositoryPassword: minio123
+  backend:
+    s3:
+      endpoint: http://home-server-minio.home-server:9000
+      bucket: backups
+      accessKeyIDSecretRef:
+        name: home-server-minio
+        key: root-user
+      secretAccessKeySecretRef:
+        name: home-server-minio
+        key: root-password
+    repoPasswordSecretRef:
+      name: k8up-secrets
+      key: RESTIC_REPOSITORY_PASSWORD
+
+minio:
+  enabled: true
+  auth:
+    rootUser: minio
+    rootPassword: minio123
+
+nfs:
+  enabled: false
+
+pg-finance-project-staging:
+  enabled: true
+
+pg-finance-project-production:
+  enabled: true

@@ -7,16 +7,7 @@ spec:
   failedJobsHistoryLimit: 2
   successfulJobsHistoryLimit: 2
   backend:
-    s3:
-      endpoint: https://s3.sa-east-1.amazonaws.com
-      bucket: home-server-backups
-      accessKeyIDSecretRef:
-        name: k8up-secrets
-        key: AWS_ACCESS_KEY_ID
-      secretAccessKeySecretRef:
-        name: k8up-secrets
-        key: AWS_SECRET_ACCESS_KEY
-    repoPasswordSecretRef:
-      name: k8up-secrets
-      key: RESTIC_REPOSITORY_PASSWORD
+  {{- with .Values.k8up.backend }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

@@ -25,3 +25,7 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
     alias: pg-finance-project-production
     condition: pg-finance-project-production.enabled
+  - name: minio
+    version: "12.9.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: minio.enabled
