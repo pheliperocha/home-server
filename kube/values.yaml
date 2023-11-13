@@ -69,6 +69,7 @@ minio:
 nfs:
   enabled: true
 
+# TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
   enabled: true
   auth:
@@ -78,6 +79,7 @@ pg-finance-project-staging:
       annotations:
         k8up.io/backup: "false"
 
+# TODO: Use helmfile to have a different release for finance-project-production
 pg-finance-project-production:
   enabled: true
   auth:
