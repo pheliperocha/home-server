@@ -19,7 +19,6 @@ kubernetesDashboard:
 
 k8up:
   enabled: true
-  manualBackup: false
   awsAccessKeyId: minio
   awsSecretAccessKey: minio123
   resticRepositoryPassword: minio123
