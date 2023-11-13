@@ -1,3 +1,4 @@
+{{- if .Values.nodered.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,3 +51,4 @@ spec:
         - name: {{ .Values.nodered.name }}-persistent-volume
           persistentVolumeClaim:
             claimName: {{ .Values.nodered.name }}-pv-claim
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.homeassistant.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -14,3 +15,4 @@ spec:
                 name: {{ .Values.homeassistant.name }}-service
                 port:
                   number: 8123
+{{- end }}

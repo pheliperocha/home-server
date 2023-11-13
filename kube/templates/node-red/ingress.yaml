@@ -1,3 +1,4 @@
+{{- if .Values.nodered.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -14,3 +15,4 @@ spec:
                 name: {{ .Values.nodered.name }}-service
                 port:
                   number: 1880
+{{- end }}

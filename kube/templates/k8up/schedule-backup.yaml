@@ -1,28 +1,22 @@
+{{- if .Values.k8up.enabled }}
 apiVersion: k8up.io/v1
 kind: Schedule
 metadata:
   name: schedule-backup
+  namespace: home-server
 spec:
   backend:
-    s3:
-      endpoint: https://s3.sa-east-1.amazonaws.com
-      bucket: home-server-backups
-      accessKeyIDSecretRef:
-        name: k8up-secrets
-        key: AWS_ACCESS_KEY_ID
-      secretAccessKeySecretRef:
-        name: k8up-secrets
-        key: AWS_SECRET_ACCESS_KEY
-    repoPasswordSecretRef:
-      name: k8up-secrets
-      key: RESTIC_REPOSITORY_PASSWORD
+  {{- with .Values.k8up.backend }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  check:
+    schedule: '0 1 * * 1' # At 01:00 on Monday
   backup:
-    schedule: '0 2 * * 1'
+    schedule: '0 2 * * 1' # At 02:00 on Monday
     failedJobsHistoryLimit: 2
     successfulJobsHistoryLimit: 2
-  check:
-    schedule: '0 1 * * 1'
   prune:
-    schedule: '0 3 * * 1'
+    schedule: '0 3 * * 1' # At 03:00 on Monday
     retention:
       keepLast: 5
+{{- end }}

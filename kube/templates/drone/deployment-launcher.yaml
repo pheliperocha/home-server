@@ -1,4 +1,4 @@
----
+{{- if .Values.drone_launcher.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -76,3 +76,4 @@ spec:
               secretKeyRef:
                 name: "{{ .Values.drone_launcher.name }}-secrets"
                 key: AWS_SECRET_ACCESS_KEY
+{{- end }}

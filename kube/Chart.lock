@@ -2,5 +2,14 @@ dependencies:
 - name: k8up
   repository: https://k8up-io.github.io/k8up
   version: 4.4.3
-digest: sha256:fd60aab79cac322cf8a654e42bd98f0ab1480679d0115d4316a8af2fc5ffd604
-generated: "2023-11-06T12:07:53.187635452-03:00"
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.5.5
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.5.5
+- name: minio
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.9.0
+digest: sha256:db0ec817dd48fc5c1d328a265911f8fc864c683bebf1a509b1e63404d5c2049d
+generated: "2023-11-08T15:11:10.460992804-03:00"

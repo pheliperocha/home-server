@@ -14,3 +14,18 @@ dependencies:
   - name: k8up
     version: "4.4.3"
     repository: "https://k8up-io.github.io/k8up"
+    condition: k8up.enabled
+  - name: postgresql
+    version: "12.5.5"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: pg-finance-project-staging
+    condition: pg-finance-project-staging.enabled
+  - name: postgresql
+    version: "12.5.5"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: pg-finance-project-production
+    condition: pg-finance-project-production.enabled
+  - name: minio
+    version: "12.9.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: minio.enabled
