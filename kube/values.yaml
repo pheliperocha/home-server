@@ -69,6 +69,16 @@ minio:
 nfs:
   enabled: true
 
+kuma:
+  enabled: true
+  name: kuma
+  localHostname: kuma.local
+  publicHostname: kuma.pheliperocha.com
+  replicaCount: 1
+  serviceAccount:
+    create: true
+    annotations: {}
+
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
   enabled: true

@@ -1,0 +1,18 @@
+{{- if .Values.kuma.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.kuma.name }}-ingress
+spec:
+  rules:
+    - host: {{ .Values.kuma.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.kuma.name }}-service
+                port:
+                  number: 3001
+{{- end }}

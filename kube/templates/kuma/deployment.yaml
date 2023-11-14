@@ -1,0 +1,51 @@
+{{- if .Values.kuma.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.kuma.name }}
+  labels:
+    {{- include "kuma.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.kuma.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "kuma.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kuma.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Values.kuma.name }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Values.kuma.name }}
+          image: "louislam/uptime-kuma:1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3001
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: /app/data
+              name: {{ .Values.kuma.name }}-persistent-volume
+      volumes:
+        - name: {{ .Values.kuma.name }}-persistent-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.kuma.name }}-pv-claim
+{{- end }}
