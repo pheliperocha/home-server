@@ -1,0 +1,58 @@
+{{- if .Values.ntfy.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.ntfy.name }}
+  labels:
+    {{- include "ntfy.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.ntfy.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ntfy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ntfy.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ .Values.ntfy.name }}
+      restartPolicy: Always
+      containers:
+        - name: {{ .Values.ntfy.name }}
+          image: "binwiederhier/ntfy:v2.7.0"
+          imagePullPolicy: IfNotPresent
+          args: ["serve"]
+          ports:
+            - name: http
+              containerPort: {{ .Values.ntfy.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /v1/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /v1/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            failureThreshold: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - mountPath: {{ .Values.ntfy.volumePath }}
+              name: {{ .Values.ntfy.name }}-volume
+            - mountPath: {{ .Values.ntfy.volumePath }}/server.yml
+              subPath: server.yml
+              name: {{ .Values.ntfy.name }}-config
+      volumes:
+        - name: {{ .Values.ntfy.name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.ntfy.name }}-pv-claim
+        - name: {{ .Values.ntfy.name }}-config
+          configMap:
+            name: {{ .Values.ntfy.name }}-config
+{{- end }}
