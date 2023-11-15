@@ -47,6 +47,11 @@ kuma:
   tunnel:
     enabled: false
 
+ntfy:
+  enabled: false
+  tunnel:
+    enabled: false
+
 nfs:
   enabled: false
 

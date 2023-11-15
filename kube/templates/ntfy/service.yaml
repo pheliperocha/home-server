@@ -1,0 +1,17 @@
+{{- if .Values.ntfy.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.ntfy.name }}-service
+  labels:
+    {{- include "ntfy.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.ntfy.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "ntfy.selectorLabels" . | nindent 4 }}
+{{- end }}

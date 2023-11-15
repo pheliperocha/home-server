@@ -1,0 +1,18 @@
+{{- if .Values.ntfy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ntfy.name }}-ingress
+spec:
+  rules:
+    - host: {{ .Values.ntfy.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ntfy.name }}-service
+                port:
+                  number: {{ .Values.ntfy.port }}
+{{- end }}

@@ -1,0 +1,15 @@
+{{- if .Values.ntfy.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.ntfy.name }}-pv-claim
+  labels:
+    {{- include "ntfy.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+status: {}
+{{- end }}
