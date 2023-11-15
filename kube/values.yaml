@@ -69,6 +69,20 @@ minio:
 nfs:
   enabled: true
 
+kuma:
+  enabled: true
+  name: kuma
+  localHostname: kuma.local
+  publicHostname: kuma.pheliperocha.com
+  port: 3001
+  replicaCount: 1
+  serviceAccount:
+    create: true
+    annotations: {}
+  tunnel:
+    enabled: true
+    cloudflare_name: kuma
+
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
   enabled: true

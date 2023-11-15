@@ -1,0 +1,17 @@
+{{- if .Values.kuma.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.kuma.name }}-service
+  labels:
+    {{- include "kuma.labels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.kuma.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "kuma.selectorLabels" . | nindent 4 }}
+{{- end }}
