@@ -8,7 +8,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 3001
+    - port: {{ .Values.kuma.port }}
       targetPort: http
       protocol: TCP
       name: http

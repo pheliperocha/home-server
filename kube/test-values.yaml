@@ -44,6 +44,8 @@ minio:
 
 kuma:
   enabled: false
+  tunnel:
+    enabled: false
 
 nfs:
   enabled: false

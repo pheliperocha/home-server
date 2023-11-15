@@ -14,5 +14,5 @@ spec:
               service:
                 name: {{ .Values.kuma.name }}-service
                 port:
-                  number: 3001
+                  number: {{ .Values.kuma.port }}
 {{- end }}
