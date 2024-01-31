@@ -1,3 +1,7 @@
+# Set environment variables
+export AWS_PROFILE=pheliperocha
+export RESTIC_REPOSITORY=s3:s3.amazonaws.com/home-server-backups
+
 # Read SQL data from Restic into file
 SNAPSHOT_ID=$(restic snapshots --json --path /home-server-postgresql | jq -r '.[0].id')
 
