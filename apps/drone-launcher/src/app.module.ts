@@ -14,6 +14,9 @@ import { NamespaceMapService } from './services/namespaceMap.service';
 import { FileService } from './services/file.service';
 import { GitService } from './services/git.service';
 import { HelmService } from './services/helm.service';
+import { KubectlService } from './services/kubectl.service';
+import { NtfyService } from './services/ntfy.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { HelmService } from './services/helm.service';
     }),
     TypeOrmModule.forFeature([LaunchProcessLog]),
     CqrsModule,
+    HttpModule,
   ],
   controllers: [AppController],
   providers: [
@@ -37,6 +41,8 @@ import { HelmService } from './services/helm.service';
     FileService,
     GitService,
     HelmService,
+    KubectlService,
+    NtfyService,
   ],
 })
 export class AppModule {}

@@ -9,6 +9,8 @@ import { NamespaceMapService } from './services/namespaceMap.service';
 import { GitService } from './services/git.service';
 import { FileService } from './services/file.service';
 import { HelmService } from './services/helm.service';
+import { KubectlService } from './services/kubectl.service';
+import { NtfyService } from './services/ntfy.service';
 
 @CommandHandler(LaunchCommand)
 export class LaunchHandler implements ICommandHandler<LaunchCommand> {
@@ -20,6 +22,8 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     private gitService: GitService,
     private fileService: FileService,
     private helmService: HelmService,
+    private kubectlService: KubectlService,
+    private ntfyService: NtfyService,
   ) {}
 
   public async execute({
@@ -39,7 +43,16 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       await this.cloneRepository(pid, repository);
       await this.checkoutCommitId(pid, commitId);
       await this.setImageTag(pid, commitId);
-      await this.helmRelease(pid, appName, target);
+
+      const appVersion = await this.getAppVersion(pid);
+      await this.helmRelease(pid, appName, target, appVersion);
+
+      await this.ntfyService.sendNotification(
+        `Application ${appName} ${appVersion} released successfully ${target}`,
+        {
+          tags: ['tada', appName, target],
+        },
+      );
 
       await this.launchProcessLogRepository.save(pid, 'Done!');
 
@@ -47,6 +60,13 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     } catch (err) {
       await this.launchProcessLogRepository.save(pid, 'Error!');
       console.error(err);
+
+      await this.ntfyService.sendNotification(
+        `Application ${appName} failed to release to ${target}`,
+        {
+          tags: ['warning', appName, target],
+        },
+      );
     }
   }
 
@@ -130,7 +150,42 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
     }
   }
 
-  private async helmRelease(pid: string, appName: string, target: TargetType) {
+  private async getAppVersion(pid: string) {
+    try {
+      await this.launchProcessLogRepository.save(pid, `Get app version...`);
+
+      const packageJsonPath = `${this.configService.get(
+        'tempFolder',
+      )}/${pid}/package.json`;
+
+      const packageJson = await this.fileService.getJsonFile<{
+        version: string;
+      }>(packageJsonPath);
+
+      const appVersion = packageJson.version;
+
+      await this.launchProcessLogRepository.save(
+        pid,
+        `App Version: ${appVersion}`,
+      );
+
+      return appVersion;
+    } catch (err) {
+      await this.launchProcessLogRepository.save(
+        pid,
+        'Failed to get app version.',
+      );
+
+      throw err;
+    }
+  }
+
+  private async helmRelease(
+    pid: string,
+    appName: string,
+    target: TargetType,
+    appVersion: string,
+  ) {
     try {
       await this.launchProcessLogRepository.save(
         pid,
@@ -140,15 +195,16 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
       const namespacePrefix = this.namespaceMap.getNamespaceByAppName(appName);
       const namespace = `${namespacePrefix}-${target}`;
       await this.helmService.release(appName, namespace, target, pid);
+      await this.kubectlService.checkRelease(namespace, appVersion, pid);
 
       await this.launchProcessLogRepository.save(
         pid,
-        `Helm update completed. Application released successfully.`,
+        `Helm upgrade completed. Application released successfully.`,
       );
     } catch (err) {
       await this.launchProcessLogRepository.save(
         pid,
-        'Error occurred during Helm update.',
+        'Error occurred during Helm upgrade.',
       );
 
       throw err;

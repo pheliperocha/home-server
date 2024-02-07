@@ -2,6 +2,7 @@ export interface IConfig {
   gitToken: string;
   token: string;
   webhookSecret: string;
+  ntfyToken: string;
 
   tempFolder: string;
   appConfigMap: {
@@ -17,6 +18,7 @@ export default (): IConfig => ({
   gitToken: process.env.GIT_TOKEN,
   token: process.env.TOKEN,
   webhookSecret: process.env.WEBHOOK_SECRET,
+  ntfyToken: process.env.NTFY_TOKEN,
 
   tempFolder: process.env.TEMP_FOLDER || '/tmp',
   appConfigMap: {

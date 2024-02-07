@@ -12,4 +12,9 @@ export class FileService {
     const newData = data.replace(searchValue, replaceValue);
     fs.writeFileSync(filePath, newData, 'utf-8');
   }
+
+  async getJsonFile<T>(filePath: string): Promise<T> {
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data) as T;
+  }
 }
