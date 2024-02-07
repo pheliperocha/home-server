@@ -76,4 +76,9 @@ spec:
               secretKeyRef:
                 name: "{{ .Values.drone_launcher.name }}-secrets"
                 key: AWS_SECRET_ACCESS_KEY
+          - name: NTFY_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Values.drone_launcher.name }}-secrets"
+                key: NTFY_TOKEN
 {{- end }}
