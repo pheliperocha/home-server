@@ -13,7 +13,7 @@ export class AppService {
   ) {}
 
   getHello(): string {
-    return 'Drone Launcher Service v2.0.1'; // TODO: Auto generate version
+    return 'Drone Launcher Service v2.1.0'; // TODO: Auto generate version
   }
 
   enqueuLaunchProcess({
