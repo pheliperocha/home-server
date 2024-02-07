@@ -8,31 +8,31 @@ spec:
   successfulJobsHistoryLimit: 2
 
   ## Minio as backend for backups
-  backend:
-    s3:
-      endpoint: http://home-server-minio.home-server:9000
-      bucket: backups
-      accessKeyIDSecretRef:
-        name: home-server-minio
-        key: root-user
-      secretAccessKeySecretRef:
-        name: home-server-minio
-        key: root-password
-    repoPasswordSecretRef:
-      name: k8up-secrets
-      key: RESTIC_REPOSITORY_PASSWORD
-
-  ## AWS S3 as backend for backups
   # backend:
   #   s3:
-  #     endpoint: https://s3.sa-east-1.amazonaws.com
-  #     bucket: home-server-backups
+  #     endpoint: http://home-server-minio.home-server:9000
+  #     bucket: backups
   #     accessKeyIDSecretRef:
-  #       name: k8up-secrets
-  #       key: AWS_ACCESS_KEY_ID
+  #       name: home-server-minio
+  #       key: root-user
   #     secretAccessKeySecretRef:
-  #       name: k8up-secrets
-  #       key: AWS_SECRET_ACCESS_KEY
+  #       name: home-server-minio
+  #       key: root-password
   #   repoPasswordSecretRef:
   #     name: k8up-secrets
   #     key: RESTIC_REPOSITORY_PASSWORD
+
+  ## AWS S3 as backend for backups
+  backend:
+    s3:
+      endpoint: https://s3.sa-east-1.amazonaws.com
+      bucket: home-server-backups
+      accessKeyIDSecretRef:
+        name: k8up-secrets
+        key: AWS_ACCESS_KEY_ID
+      secretAccessKeySecretRef:
+        name: k8up-secrets
+        key: AWS_SECRET_ACCESS_KEY
+    repoPasswordSecretRef:
+      name: k8up-secrets
+      key: RESTIC_REPOSITORY_PASSWORD
