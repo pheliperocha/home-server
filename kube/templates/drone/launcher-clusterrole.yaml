@@ -13,6 +13,7 @@ rules:
       - serviceaccounts
       - configmaps
       - services
+      - pods
     verbs:
       - list
       - get
