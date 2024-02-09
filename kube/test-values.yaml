@@ -52,6 +52,9 @@ ntfy:
   tunnel:
     enabled: false
 
+atuin:
+  enabled: false
+
 nfs:
   enabled: false
 
@@ -59,4 +62,7 @@ pg-finance-project-staging:
   enabled: false
 
 pg-finance-project-production:
+  enabled: false
+
+pg-atuin:
   enabled: false
