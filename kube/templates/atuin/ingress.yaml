@@ -12,7 +12,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.atuin.name }}
+                name: {{ .Values.atuin.name }}-service
                 port:
                   number: {{ .Values.atuin.port }}
 {{- end }}

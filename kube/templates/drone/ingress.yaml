@@ -12,7 +12,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.drone_launcher.name }}
+                name: {{ .Values.drone_launcher.name }}-service
                 port:
                   number: {{ .Values.drone_launcher.port }}
 {{- end }}
