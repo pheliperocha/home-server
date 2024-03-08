@@ -42,10 +42,17 @@ spec:
             failureThreshold: 5
             timeoutSeconds: 10
           volumeMounts:
-            - mountPath: /config
-              name: {{ .Values.homeassistant.name }}-persistent-volume
+            - name: {{ .Values.homeassistant.name }}-persistent-volume
+              mountPath: /config
+            - name: "{{ .Values.homeassistant.name }}-secrets-file"
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
+              readOnly: true
       volumes:
         - name: {{ .Values.homeassistant.name }}-persistent-volume
           persistentVolumeClaim:
             claimName: {{ .Values.homeassistant.name }}-pv-claim
+        - name: "{{ .Values.homeassistant.name }}-secrets-file"
+          secret:
+            secretName: "{{ .Values.homeassistant.name }}-secrets-file"
 {{- end }}
