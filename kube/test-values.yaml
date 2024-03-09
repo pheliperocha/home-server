@@ -1,5 +1,6 @@
 homeassistant:
   enabled: false
+  use_local_mount: true
   tunnel:
     enabled: false
 
@@ -66,3 +67,6 @@ pg-finance-project-production:
 
 pg-atuin:
   enabled: false
+
+pg-homeassistant:
+    enabled: false

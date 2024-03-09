@@ -30,6 +30,11 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
     alias: pg-atuin
     condition: pg-atuin.enabled
+  - name: postgresql
+    version: "12.5.5"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: pg-homeassistant
+    condition: pg-homeassistant.enabled
   - name: minio
     version: "12.9.0"
     repository: "https://charts.bitnami.com/bitnami"

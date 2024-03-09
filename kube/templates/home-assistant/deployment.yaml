@@ -42,17 +42,28 @@ spec:
             failureThreshold: 5
             timeoutSeconds: 10
           volumeMounts:
+            {{- if .Values.homeassistant.use_local_mount }}
+            - name: local-mount
+              mountPath: /config
+            {{- else }}
             - name: {{ .Values.homeassistant.name }}-persistent-volume
               mountPath: /config
             - name: "{{ .Values.homeassistant.name }}-secrets-file"
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
               readOnly: true
+            {{- end }}
       volumes:
+        {{- if .Values.homeassistant.use_local_mount }}
+        - name: local-mount
+          hostPath:
+            path: /data
+        {{- else }}
         - name: {{ .Values.homeassistant.name }}-persistent-volume
           persistentVolumeClaim:
             claimName: {{ .Values.homeassistant.name }}-pv-claim
         - name: "{{ .Values.homeassistant.name }}-secrets-file"
           secret:
             secretName: "{{ .Values.homeassistant.name }}-secrets-file"
+        {{- end }}
 {{- end }}
