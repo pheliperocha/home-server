@@ -124,7 +124,7 @@ pg-finance-project-production:
   primary:
     podAnnotations:
       k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
-      k8up.io/fileExtension: "pg-finance-project-production.sql"
+      k8up.io/file-extension: "-pg-finance-project-production.sql"
     persistence:
       annotations:
         k8up.io/backup: "false"
@@ -136,7 +136,7 @@ pg-atuin:
   primary:
     podAnnotations:
       k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
-      k8up.io/fileExtension: "pg-atuin.sql"
+      k8up.io/file-extension: "-pg-atuin.sql"
     persistence:
       annotations:
         k8up.io/backup: "false"
