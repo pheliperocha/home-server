@@ -74,7 +74,7 @@ data:
     no-autoupdate: true
     ingress:
     - hostname: {{ .Values.drone_launcher.publicHostname }}
-      service: http://{{ .Values.drone_launcher.name }}-service.home-server.svc.cluster.local.:{{ .Values.drone_launcher.port }}
+      service: http://{{ .Values.drone_launcher.name }}-service.{{ .Release.Namespace }}.svc.cluster.local.:{{ .Values.drone_launcher.port }}
     - service: http_status:404
 ---
 apiVersion: v1

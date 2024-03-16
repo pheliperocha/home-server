@@ -74,7 +74,7 @@ data:
     no-autoupdate: true
     ingress:
     - hostname: {{ .Values.ntfy.publicHostname }}
-      service: http://{{ .Values.ntfy.name }}-service.home-server.svc.cluster.local.:{{ .Values.ntfy.port }}
+      service: http://{{ .Values.ntfy.name }}-service.{{.Release.Namespace}}.svc.cluster.local.:{{ .Values.ntfy.port }}
     - service: http_status:404
 ---
 apiVersion: v1

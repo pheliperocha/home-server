@@ -74,7 +74,7 @@ data:
     no-autoupdate: true
     ingress:
     - hostname: {{ .Values.kuma.publicHostname }}
-      service: http://{{ .Values.kuma.name }}-service.home-server.svc.cluster.local.:{{ .Values.kuma.port }}
+      service: http://{{ .Values.kuma.name }}-service.{{.Release.Namespace}}.svc.cluster.local.:{{ .Values.kuma.port }}
     - service: http_status:404
 ---
 apiVersion: v1
