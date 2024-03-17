@@ -1,1 +1,4 @@
 .env
+/kube/data/*
+!/kube/data/.gitkeep
+.vscode

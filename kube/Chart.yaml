@@ -2,8 +2,8 @@ apiVersion: v2
 name: home-server
 description: Helm chart for home-server
 type: application
-version: 1.3.3
-appVersion: "1.3.3"
+version: 1.3.4
+appVersion: "1.3.4"
 kubeVersion: "^1.20.0"
 sources:
   - https://github.com/pheliperocha/home-server
@@ -30,6 +30,11 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
     alias: pg-atuin
     condition: pg-atuin.enabled
+  - name: postgresql
+    version: "12.5.5"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: pg-homeassistant
+    condition: pg-homeassistant.enabled
   - name: minio
     version: "12.9.0"
     repository: "https://charts.bitnami.com/bitnami"
