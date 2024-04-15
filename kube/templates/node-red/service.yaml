@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "nodered.labels" . | nindent 4 }}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 1880
       targetPort: http
