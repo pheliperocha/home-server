@@ -1,7 +1,10 @@
 homeassistant:
   enabled: false
-  use_local_mount: true
+  use_local_mount: false
   tunnel:
+    enabled: false
+
+pg-homeassistant:
     enabled: false
 
 nodered:
@@ -67,6 +70,3 @@ pg-finance-project-production:
 
 pg-atuin:
   enabled: false
-
-pg-homeassistant:
-    enabled: false
