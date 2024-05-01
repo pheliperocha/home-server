@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ .Values.drone_launcher.name }}
       app.kubernetes.io/instance: {{ .Release.Name }}
-  replicas: 1
+  replicas: {{ .Values.drone_launcher.replicaCount }}
   template:
     metadata:
       labels:

@@ -1,14 +1,28 @@
+### 1. Set Envs
+# export RESTIC_REPOSITORY=s3:https://s3.sa-east-1.amazonaws.com/home-server-backups
+# export RESTIC_PASSWORD=$(kubectl get secrets -n home-server k8up-secrets -o jsonpath="{.data.RESTIC_REPOSITORY_PASSWORD}" | base64 -d)
+# export AWS_ACCESS_KEY_ID=$(kubectl get secrets -n home-server k8up-secrets -o jsonpath="{.data.AWS_ACCESS_KEY_ID}" | base64 -d)
+# export AWS_SECRET_ACCESS_KEY=$(kubectl get secrets -n home-server k8up-secrets -o jsonpath="{.data.AWS_SECRET_ACCESS_KEY}" | base64 -d)
+
+### 2. Update SNAPSHOT_ID
+# restic snapshots --latest 1
+# restic snapshots --json --latest 1 --path /data/nodered-pv-claim | jq -r '.[0].id'
+
+### 3. Update PVC_NAME
+# kubectl get pvc -n home-server
+
+### 4. Execute manunal-restore
+# kubectl apply -f ./scripts/manual-restore.yaml -n home-server
+
 apiVersion: k8up.io/v1
 kind: Restore
 metadata:
   name: manual-restore
   namespace: home-server
 spec:
-  # restic snapshots --latest 1
   snapshot: SNAPSHOT_ID
   restoreMethod:
     folder:
-      # kubectl get pvc -n home-server
       claimName: PVC_NAME
   podSecurityContext:
     runAsUser: 0

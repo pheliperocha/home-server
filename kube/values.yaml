@@ -27,6 +27,7 @@ drone_launcher:
   port: 80
   publicHostname: drone.pheliperocha.com
   localHostname: drone.local
+  replicaCount: 1
   tunnel:
     enabled: true
     cloudflare_name: drone
@@ -35,7 +36,7 @@ qbittorrent:
   enabled: true
   name: qbittorrent
   localHostname: qbittorrent.local
-  replicaCount: 1
+  replicaCount: 0
   serviceAccount:
     annotations: {}
 
@@ -86,7 +87,7 @@ kuma:
 
 ntfy:
   enabled: true
-  name: ntfy-v2
+  name: ntfy
   localHostname: ntfy.local
   publicHostname: ntfy.pheliperocha.com
   port: 80
@@ -149,6 +150,7 @@ pg-homeassistant:
     primary:
       podAnnotations:
         k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
+        k8up.io/file-extension: "-pg-homeassistant.sql"
       persistence:
         annotations:
           k8up.io/backup: "false"
