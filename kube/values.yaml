@@ -108,6 +108,12 @@ atuin:
   replicaCount: 1
   openRegistration: true
 
+pihole:
+  enabled: true
+  name: pihole
+  replicaCount: 1
+  timezone: America/Sao_Paulo
+
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
   enabled: true

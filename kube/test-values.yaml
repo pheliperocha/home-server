@@ -59,6 +59,9 @@ ntfy:
 atuin:
   enabled: false
 
+pihole:
+  enabled: true
+
 nfs:
   enabled: false
 

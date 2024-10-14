@@ -2,3 +2,4 @@
 /kube/data/*
 !/kube/data/.gitkeep
 .vscode
+/kube/**/secrets.yaml
