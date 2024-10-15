@@ -60,7 +60,7 @@ atuin:
   enabled: false
 
 pihole:
-  enabled: true
+  enabled: false
 
 nfs:
   enabled: false

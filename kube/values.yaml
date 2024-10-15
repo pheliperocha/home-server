@@ -113,6 +113,7 @@ pihole:
   name: pihole
   replicaCount: 1
   timezone: America/Sao_Paulo
+  localHostname: pihole.local
 
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
