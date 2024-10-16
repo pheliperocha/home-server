@@ -1,7 +1,7 @@
 homeassistant:
   enabled: true
   name: homeassistant
-  localHostname: homeassistant.local
+  localHostname: homeassistant.home.pheliperocha.com
   publicHostname: homeassistant.pheliperocha.com
   replicaCount: 1
   serviceAccount:
@@ -15,7 +15,7 @@ homeassistant:
 nodered:
   enabled: true
   name: nodered
-  localHostname: nodered.local
+  localHostname: nodered.home.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
@@ -26,7 +26,7 @@ drone_launcher:
   name: drone-launcher
   port: 80
   publicHostname: drone.pheliperocha.com
-  localHostname: drone.local
+  localHostname: drone.home.pheliperocha.com
   replicaCount: 1
   tunnel:
     enabled: true
@@ -35,7 +35,7 @@ drone_launcher:
 qbittorrent:
   enabled: true
   name: qbittorrent
-  localHostname: qbittorrent.local
+  localHostname: qbittorrent.home.pheliperocha.com
   replicaCount: 0
   serviceAccount:
     annotations: {}
@@ -43,7 +43,7 @@ qbittorrent:
 kubernetesDashboard:
   enabled: true
   name: kubernetes-dashboard
-  localHostname: k8s.local
+  localHostname: k8s.home.pheliperocha.com
 
 k8up:
   enabled: true
@@ -74,7 +74,7 @@ nfs:
 kuma:
   enabled: true
   name: kuma
-  localHostname: kuma.local
+  localHostname: kuma.home.pheliperocha.com
   publicHostname: kuma.pheliperocha.com
   port: 3001
   replicaCount: 1
@@ -88,7 +88,7 @@ kuma:
 ntfy:
   enabled: true
   name: ntfy
-  localHostname: ntfy.local
+  localHostname: ntfy.home.pheliperocha.com
   publicHostname: ntfy.pheliperocha.com
   port: 80
   replicaCount: 1
@@ -103,7 +103,7 @@ ntfy:
 atuin:
   enabled: true
   name: atuin
-  localHostname: atuin.local
+  localHostname: atuin.home.pheliperocha.com
   port: 8888
   replicaCount: 1
   openRegistration: true
@@ -113,7 +113,7 @@ pihole:
   name: pihole
   replicaCount: 1
   timezone: America/Sao_Paulo
-  localHostname: pihole.local
+  localHostname: pihole.home.pheliperocha.com
 
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
