@@ -25,12 +25,10 @@ drone_launcher:
   enabled: true
   name: drone-launcher
   port: 80
-  publicHostname: drone.pheliperocha.com
   localHostname: drone.home.pheliperocha.com
   replicaCount: 1
   tunnel:
     enabled: true
-    cloudflare_name: drone
 
 qbittorrent:
   enabled: true
