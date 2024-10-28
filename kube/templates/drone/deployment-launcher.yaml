@@ -19,7 +19,7 @@ spec:
     spec:
       serviceAccountName: {{ .Values.drone_launcher.name }}-serviceaccount
       imagePullSecrets:
-        - name: docker-registry-key
+        - name: docker-registry-credentials
       containers:
       - name: {{ .Values.drone_launcher.name }}
         image: pheliperocha/home-server:drone-launcher-v2.1.0

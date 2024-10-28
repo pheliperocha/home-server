@@ -1,0 +1,18 @@
+{{- if .Values.pihole.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.pihole.name }}-ingress
+spec:
+  rules:
+    - host: {{ .Values.pihole.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.pihole.name }}-service
+                port:
+                  number: 80
+{{- end }}
