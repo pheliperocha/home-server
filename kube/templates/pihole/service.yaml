@@ -12,10 +12,6 @@ spec:
       port: 53
       protocol: UDP
       targetPort: 53
-    - name: client-udp
-      port: 67
-      protocol: UDP
-      targetPort: 67
     - name: pihole-http
       port: 80
       protocol: TCP
