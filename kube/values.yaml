@@ -2,7 +2,6 @@ homeassistant:
   enabled: true
   name: homeassistant
   localHostname: homeassistant.home.pheliperocha.com
-  publicHostname: homeassistant.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
