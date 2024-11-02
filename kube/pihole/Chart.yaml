@@ -2,8 +2,8 @@ apiVersion: v2
 name: pihole
 description: Helm chart for pihole
 type: application
-version: 0.1.0
-appVersion: "1.4.0"
+version: 1.0.0
+appVersion: "2024.07.0"
 kubeVersion: "^1.20.0"
 sources:
   - https://github.com/pheliperocha/home-server

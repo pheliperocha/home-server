@@ -8,8 +8,15 @@ atuin:
 
 pg-atuin:
   enabled: true
-  auth:
-    database: atuin
+  global:
+    postgresql:
+      auth:
+        database: atuin
+        existingSecret: "atuin-pg-credentials"
+        secretKeys:
+            adminPasswordKey: "postgres-password"
+            userPasswordKey: "password"
+            replicationPasswordKey: "replication-password"
   primary:
     podAnnotations:
       k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
