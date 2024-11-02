@@ -1,0 +1,79 @@
+# TODO: Enable metrics
+{{- if .Values.atuin.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.atuin.name }}
+  labels:
+    {{- include "atuin.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "atuin.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.atuin.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "atuin.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Values.atuin.name }}
+        image: ghcr.io/atuinsh/atuin:18.3.0
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: {{ .Values.atuin.port }}
+            protocol: TCP
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 1Gi
+        args: ["server", "start"]
+        env:
+          - name: ATUIN_DB_URI
+            valueFrom:
+              secretKeyRef:
+                name: "{{ .Values.atuin.name }}-secrets"
+                key: ATUIN_DB_URI
+                optional: false
+          - name: ATUIN_HOST
+            value: 0.0.0.0
+          - name: ATUIN_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: "{{ .Values.atuin.name }}-configmap"
+                key: ATUIN_PORT
+                optional: false
+          - name: ATUIN_OPEN_REGISTRATION
+            valueFrom:
+              configMapKeyRef:
+                name: "{{ .Values.atuin.name }}-configmap"
+                key: ATUIN_OPEN_REGISTRATION
+                optional: false
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 20
+          periodSeconds: 60
+          failureThreshold: 5
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 20
+          periodSeconds: 60
+          failureThreshold: 5
+          timeoutSeconds: 10
+        volumeMounts:
+        - mountPath: /config
+          name: {{ .Values.atuin.name }}-persistent-volume
+      volumes:
+        - name: {{ .Values.atuin.name }}-persistent-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.atuin.name }}-pv-claim
+{{- end }}

@@ -1,0 +1,19 @@
+apiVersion: v2
+name: atauin
+description: Helm chart for atuin
+type: application
+version: 1.0.0
+appVersion: "18.3.0"
+kubeVersion: "^1.20.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+  - https://github.com/pheliperocha/home-server/tree/main/kube/atuin
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com
+dependencies:
+  - name: postgresql
+    version: "12.5.5"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: pg-atuin
+    condition: pg-atuin.enabled

@@ -1,0 +1,6 @@
+pihole:
+  enabled: true
+  name: pihole
+  replicaCount: 1
+  timezone: America/Sao_Paulo
+  localHostname: pihole.home.pheliperocha.com

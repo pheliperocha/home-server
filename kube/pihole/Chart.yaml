@@ -1,0 +1,13 @@
+apiVersion: v2
+name: pihole
+description: Helm chart for pihole
+type: application
+version: 1.0.0
+appVersion: "2024.07.0"
+kubeVersion: "^1.20.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+  - https://github.com/pheliperocha/home-server/tree/main/kube/pihole
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com
