@@ -98,21 +98,6 @@ ntfy:
     enabled: true
     cloudflare_name: ntfy
 
-atuin:
-  enabled: true
-  name: atuin
-  localHostname: atuin.home.pheliperocha.com
-  port: 8888
-  replicaCount: 1
-  openRegistration: true
-
-pihole:
-  enabled: true
-  name: pihole
-  replicaCount: 1
-  timezone: America/Sao_Paulo
-  localHostname: pihole.home.pheliperocha.com
-
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
   enabled: true
@@ -132,18 +117,6 @@ pg-finance-project-production:
     podAnnotations:
       k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
       k8up.io/file-extension: "-pg-finance-project-production.sql"
-    persistence:
-      annotations:
-        k8up.io/backup: "false"
-
-pg-atuin:
-  enabled: true
-  auth:
-    database: atuin
-  primary:
-    podAnnotations:
-      k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
-      k8up.io/file-extension: "-pg-atuin.sql"
     persistence:
       annotations:
         k8up.io/backup: "false"

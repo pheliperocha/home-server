@@ -58,6 +58,8 @@ ntfy:
 
 atuin:
   enabled: false
+pg-atuin:
+  enabled: false
 
 pihole:
   enabled: false
@@ -69,7 +71,4 @@ pg-finance-project-staging:
   enabled: false
 
 pg-finance-project-production:
-  enabled: false
-
-pg-atuin:
   enabled: false

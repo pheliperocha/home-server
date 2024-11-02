@@ -1,0 +1,19 @@
+atuin:
+  enabled: true
+  name: atuin
+  localHostname: atuin.home.pheliperocha.com
+  port: 8888
+  replicaCount: 1
+  openRegistration: true
+
+pg-atuin:
+  enabled: true
+  auth:
+    database: atuin
+  primary:
+    podAnnotations:
+      k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
+      k8up.io/file-extension: "-pg-atuin.sql"
+    persistence:
+      annotations:
+        k8up.io/backup: "false"
