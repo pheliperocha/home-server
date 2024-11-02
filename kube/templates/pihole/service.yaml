@@ -1,0 +1,29 @@
+{{- if .Values.pihole.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.pihole.name }}-service
+  labels:
+    {{- include "pihole.labels" . | nindent 4 }}
+spec:
+  type: LoadBalancer
+  ports:
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: 53
+    - name: pihole-http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: pihole-https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    - name: dns
+      port: 53
+      protocol: TCP
+      targetPort: 53
+  selector:
+    {{- include "pihole.selectorLabels" . | nindent 4 }}
+{{- end }}
