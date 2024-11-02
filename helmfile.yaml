@@ -6,25 +6,22 @@ releases:
   - name: home-server
     namespace: home-server
     chart: ./kube
-    version: 0.1.0
+    version: 1.4.0
     values:
       - ./kube/values.yaml
-      - ./test-values.yaml
     secrets:
     - ./kube/secrets.yaml
   
   - name: pihole
     namespace: pihole
     chart: ./kube/pihole
-    version: 0.1.0
+    version: 1.0.0
     values:
       - ./kube/values.yaml
-      - ./test-values.yaml
   
   - name: atuin
     namespace: atuin
     chart: ./kube/atuin
-    version: 0.1.0
+    version: 1.0.0
     values:
       - ./kube/values.yaml
-      - ./test-values.yaml
