@@ -1,9 +1,0 @@
-{{- if .Values.atuin.enabled }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: "{{ .Values.atuin.name }}-configmap"
-data:
-  ATUIN_PORT: {{ .Values.atuin.port | quote }}
-  ATUIN_OPEN_REGISTRATION: {{ .Values.atuin.openRegistration | quote }}
-{{- end }}
