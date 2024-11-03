@@ -31,7 +31,7 @@ drone_launcher:
     enabled: true
 
 qbittorrent:
-  enabled: true
+  enabled: false
   name: qbittorrent
   localHostname: qbittorrent.home.pheliperocha.com
   replicaCount: 0
