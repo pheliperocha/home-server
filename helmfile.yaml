@@ -25,3 +25,10 @@ releases:
     version: 1.0.0
     values:
       - ./kube/values.yaml
+
+  - name: drone-launcher
+    namespace: drone-launcher
+    chart: ./kube/drone-launcher
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml

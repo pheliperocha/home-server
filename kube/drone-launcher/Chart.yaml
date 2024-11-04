@@ -1,0 +1,13 @@
+apiVersion: v2
+name: drone-launcher
+description: Helm chart for drone-launcher
+type: application
+version: 1.0.0
+appVersion: "2.1.0"
+kubeVersion: "^1.20.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+  - https://github.com/pheliperocha/home-server/tree/main/kube/drone
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com

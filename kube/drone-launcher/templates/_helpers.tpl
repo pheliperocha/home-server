@@ -1,0 +1,11 @@
+{{- define "drone_launcher.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "drone_launcher.labels" -}}
+helm.sh/chart: {{ include "drone_launcher.chart" . }}
+app.kubernetes.io/name: {{ .Values.drone_launcher.name }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
