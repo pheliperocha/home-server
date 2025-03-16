@@ -1,0 +1,15 @@
+grafana:
+  enabled: true
+  name: grafana
+  localHostname: grafana.home.pheliperocha.com
+  admin:
+    existingSecret: grafana-secrets
+    userKey: ADMIN_USER
+    passwordKey: ADMIN_PASSWORD
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Loki
+        type: loki
+        url: http://loki-gateway.monitoring.svc.cluster.local.

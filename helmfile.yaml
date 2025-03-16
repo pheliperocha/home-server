@@ -12,6 +12,34 @@ releases:
     secrets:
     - ./kube/secrets.yaml
   
+  - name: grafana
+    namespace: monitoring
+    chart: ./kube/grafana
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+  
+  - name: loki
+    namespace: monitoring
+    chart: ./kube/loki
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+  
+  - name: alloy
+    namespace: monitoring
+    chart: ./kube/alloy
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+
+  - name: prometheus
+    namespace: monitoring
+    chart: ./kube/prometheus
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+
   - name: pihole
     namespace: pihole
     chart: ./kube/pihole

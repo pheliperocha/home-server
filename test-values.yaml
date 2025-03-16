@@ -46,6 +46,18 @@ minio:
     rootUser: minio
     rootPassword: minio123
 
+grafana:
+  enabled: false
+
+loki:
+  enabled: false
+
+alloy:
+  enabled: false
+
+prometheus:
+  enabled: false
+
 kuma:
   enabled: false
   tunnel:
