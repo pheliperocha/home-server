@@ -1,17 +1,17 @@
 apiVersion: v2
-name: grafana
-description: A Helm chart for Grafana
+name: loki
+description: A Helm chart for Loki
 type: application
 version: 0.1.0
 appVersion: "1.0.0"
 sources:
   - https://github.com/pheliperocha/home-server
-  - https://github.com/pheliperocha/home-server/tree/main/kube/grafana
+  - https://github.com/pheliperocha/home-server/tree/main/kube/loki
 maintainers:
   - name: Phelipe Rocha
     url: https://pheliperocha.com
 dependencies:
-  - name: grafana
-    version: "8.10.1"
+  - name: loki
+    version: "6.28.0"
     repository: "https://grafana.github.io/helm-charts"
-    condition: grafana.enabled
+    condition: loki.enabled

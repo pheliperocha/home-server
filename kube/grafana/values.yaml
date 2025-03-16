@@ -11,4 +11,4 @@ grafana:
       datasources:
       - name: Loki
         type: loki
-        url: http://loki-gateway.grafana.svc.cluster.local.
+        url: http://loki-gateway.monitoring.svc.cluster.local.

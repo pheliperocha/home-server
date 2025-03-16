@@ -49,6 +49,12 @@ minio:
 grafana:
   enabled: false
 
+loki:
+  enabled: false
+
+alloy:
+  enabled: false
+
 kuma:
   enabled: false
   tunnel:
