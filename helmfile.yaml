@@ -12,6 +12,13 @@ releases:
     secrets:
     - ./kube/secrets.yaml
   
+  - name: grafana
+    namespace: monitoring
+    chart: ./kube/grafana
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+  
   - name: pihole
     namespace: pihole
     chart: ./kube/pihole
