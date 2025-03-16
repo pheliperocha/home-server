@@ -33,6 +33,13 @@ releases:
     values:
       - ./kube/values.yaml
 
+  - name: prometheus
+    namespace: monitoring
+    chart: ./kube/prometheus
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+
   - name: pihole
     namespace: pihole
     chart: ./kube/pihole

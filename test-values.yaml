@@ -55,6 +55,9 @@ loki:
 alloy:
   enabled: false
 
+prometheus:
+  enabled: false
+
 kuma:
   enabled: false
   tunnel:
