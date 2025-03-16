@@ -12,7 +12,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.grafana.name }}-service
+                name: {{ .Values.grafana.name }}
                 port:
                   number: 80
 {{- end }}
