@@ -1,6 +1,7 @@
 grafana:
   enabled: true
   name: grafana
+  localHostname: grafana.home.pheliperocha.com
   admin:
     existingSecret: grafana-secrets
     userKey: ADMIN_USER
