@@ -1,6 +1,6 @@
 alloy:
-  enabled: true
-  name: grafana
+  enabled: false
+  name: alloy
   alloy:
     configMap:
       content: |-

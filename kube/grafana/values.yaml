@@ -1,5 +1,5 @@
 grafana:
-  enabled: true
+  enabled: false
   name: grafana
   localHostname: grafana.home.pheliperocha.com
   admin:
