@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.drone_launcher.ingress.localHostname }}
-      secretName: home-pheliperocha-com-staging-tls
+      secretName: {{ .Values.drone_launcher.name }}-staging-ingress-tls
   rules:
     - host: {{ .Values.drone_launcher.ingress.localHostname }}
       http:

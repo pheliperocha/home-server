@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.nodered.ingress.localHostname }}
-      secretName: home-pheliperocha-com-staging-tls
+      secretName: {{ .Values.nodered.name }}-staging-ingress-tls
   rules:
     - host: {{ .Values.nodered.ingress.localHostname }}
       http:

@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.kubernetesDashboard.ingress.localHostname }}
-      secretName: home-pheliperocha-com-staging-tls
+      secretName: {{ .Values.kubernetesDashboard.name }}-staging-ingress-tls
   rules:
     - host: {{ .Values.kubernetesDashboard.ingress.localHostname }}
       http:

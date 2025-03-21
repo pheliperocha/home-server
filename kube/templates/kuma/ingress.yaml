@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.kuma.ingress.localHostname }}
-      secretName: {{ .Values.kuma.name }}-ingress-tls
+      secretName: {{ .Values.kuma.name }}-staging-ingress-tls
   rules:
     - host: {{ .Values.kuma.ingress.localHostname }}
       http:
