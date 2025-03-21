@@ -1,16 +1,18 @@
 homeassistant:
   enabled: true
   name: homeassistant
-  localHostname: homeassistant.home.pheliperocha.com
-  publicHostname: homeassistant.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
   use_local_mount: false
+  ingress:
+    enabled: true
+    localHostname: homeassistant.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: home_assistant
+    publicHostname: homeassistant.pheliperocha.com
 
 nodered:
   enabled: true

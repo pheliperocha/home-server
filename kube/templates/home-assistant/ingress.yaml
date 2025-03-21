@@ -1,11 +1,17 @@
-{{- if .Values.homeassistant.enabled }}
+{{- if .Values.homeassistant.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.homeassistant.name }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
+  tls:
+    - hosts:
+        - {{ .Values.homeassistant.ingress.localHostname }}
+      secretName: {{ .Values.homeassistant.name }}-staging-ingress-tls
   rules:
-    - host: {{ .Values.homeassistant.localHostname }}
+    - host: {{ .Values.homeassistant.ingress.localHostname }}
       http:
         paths:
           - path: /
