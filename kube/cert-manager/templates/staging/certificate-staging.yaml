@@ -1,0 +1,17 @@
+{{- if .Values.cert_manager.certificate.staging.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.cert_manager.certificate.staging.name }}
+  namespace: default
+spec:
+  secretName: {{ .Values.cert_manager.certificate.staging.name }}-tls
+  issuerRef:
+    name: {{ .Values.cert_manager.clusterIssuer.staging.name }}
+    kind: ClusterIssuer
+  commonName: "{{ .Values.cert_manager.certificate.staging.commonName }}"
+  dnsNames:
+  {{- range .Values.cert_manager.certificate.staging.dnsNames }}
+  - "{{ . }}"
+  {{- end }}
+{{- end }}

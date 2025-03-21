@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.ntfy.name }}-config
 data:
   server.yml: |
-    base-url: https://{{ .Values.ntfy.publicHostname }}
+    base-url: https://{{ .Values.ntfy.tunnel.publicHostname }}
     auth-file: {{ .Values.ntfy.volumePath }}/user.db
     auth-default-access: deny-all
     cache-file: {{ .Values.ntfy.volumePath }}/cache.db

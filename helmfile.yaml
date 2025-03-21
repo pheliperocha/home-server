@@ -3,6 +3,15 @@ repositories:
     url: https://charts.bitnami.com/bitnami
 
 releases:
+  - name: cert-manager
+    namespace: cert-manager
+    chart: ./kube/cert-manager
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+      - cert_manager:
+          cloudflare_email: {{ requiredEnv "CLOUDFLARE_EMAIL" | quote }}
+
   - name: home-server
     namespace: home-server
     chart: ./kube
@@ -11,7 +20,7 @@ releases:
       - ./kube/values.yaml
     secrets:
     - ./kube/secrets.yaml
-  
+
   - name: grafana
     namespace: monitoring
     chart: ./kube/grafana

@@ -1,25 +1,29 @@
 homeassistant:
   enabled: true
   name: homeassistant
-  localHostname: homeassistant.home.pheliperocha.com
-  publicHostname: homeassistant.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
   use_local_mount: false
+  ingress:
+    enabled: true
+    localHostname: homeassistant.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: home_assistant
+    publicHostname: homeassistant.pheliperocha.com
 
 nodered:
   enabled: true
   name: nodered
-  localHostname: nodered.home.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: nodered.home.pheliperocha.com
 
 drone_launcher:
   enabled: true
@@ -41,7 +45,9 @@ qbittorrent:
 kubernetesDashboard:
   enabled: true
   name: kubernetes-dashboard
-  localHostname: k8s.home.pheliperocha.com
+  ingress:
+    enabled: true
+    localHostname: k8s.home.pheliperocha.com
 
 k8up:
   enabled: true
@@ -72,31 +78,35 @@ nfs:
 kuma:
   enabled: true
   name: kuma
-  localHostname: kuma.home.pheliperocha.com
-  publicHostname: kuma.pheliperocha.com
   port: 3001
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: kuma.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: kuma
+    publicHostname: kuma.pheliperocha.com
 
 ntfy:
   enabled: true
   name: ntfy
-  localHostname: ntfy.home.pheliperocha.com
-  publicHostname: ntfy.pheliperocha.com
   port: 80
   replicaCount: 1
   volumePath: /etc/ntfy
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: ntfy.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: ntfy
+    publicHostname: ntfy.pheliperocha.com
 
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
