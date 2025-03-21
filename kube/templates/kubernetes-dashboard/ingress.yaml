@@ -5,12 +5,12 @@ metadata:
   name: {{ .Values.kubernetesDashboard.name }}-ingress
   namespace: {{ .Values.kubernetesDashboard.name }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
     - hosts:
         - {{ .Values.kubernetesDashboard.ingress.localHostname }}
-      secretName: {{ .Values.kubernetesDashboard.name }}-staging-ingress-tls
+      secretName: {{ .Values.kubernetesDashboard.name }}-ingress-tls
   rules:
     - host: {{ .Values.kubernetesDashboard.ingress.localHostname }}
       http:

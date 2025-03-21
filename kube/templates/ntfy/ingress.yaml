@@ -4,12 +4,12 @@ kind: Ingress
 metadata:
   name: {{ .Values.ntfy.name }}-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
     - hosts:
         - {{ .Values.ntfy.ingress.localHostname }}
-      secretName: {{ .Values.ntfy.name }}-staging-ingress-tls
+      secretName: {{ .Values.ntfy.name }}-ingress-tls
   rules:
     - host: {{ .Values.ntfy.ingress.localHostname }}
       http:
