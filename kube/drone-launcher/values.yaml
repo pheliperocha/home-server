@@ -2,7 +2,9 @@ drone_launcher:
   enabled: true
   name: drone-launcher
   port: 80
-  localHostname: drone.home.pheliperocha.com
   replicaCount: 1
+  ingress:
+    enabled: true
+    localHostname: drone.home.pheliperocha.com
   tunnel:
     enabled: true

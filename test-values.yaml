@@ -12,6 +12,16 @@ nodered:
 
 cert_manager:
   enabled: false
+  clusterIssuer:
+    staging:
+      enabled: false
+  certificate:
+    staging:
+      enabled: false
+
+cert-manager:
+  crds:
+    enabled: false
 
 drone_launcher:
   enabled: false

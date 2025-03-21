@@ -1,14 +1,17 @@
+{{- if .Values.cert_manager.certificate.staging.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: home-pheliperocha-com
+  name: {{ .Values.cert_manager.certificate.staging.name }}
   namespace: default
 spec:
-  secretName: home-pheliperocha-com-staging-tls
+  secretName: {{ .Values.cert_manager.certificate.staging.name }}-tls
   issuerRef:
-    name: letsencrypt-staging
+    name: {{ .Values.cert_manager.clusterIssuer.staging.name }}
     kind: ClusterIssuer
-  commonName: "*.home.pheliperocha.com"
+  commonName: "{{ .Values.cert_manager.certificate.staging.commonName }}"
   dnsNames:
-  - "home.pheliperocha.com"
-  - "*.home.pheliperocha.com"
+  {{- range .Values.cert_manager.certificate.staging.dnsNames }}
+  - "{{ . }}"
+  {{- end }}
+{{- end }}

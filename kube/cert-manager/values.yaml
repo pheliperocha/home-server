@@ -1,5 +1,19 @@
 cert_manager:
   enabled: true
+  clusterIssuer:
+    staging:
+      enabled: true
+      name: letsencrypt-staging
+      dnsZone: "home.pheliperocha.com"
+  certificate:
+    staging:
+      enabled: true
+      name: home-pheliperocha-com-staging
+      commonName: "*.home.pheliperocha.com"
+      dnsNames:
+        - "home.pheliperocha.com"
+        - "*.home.pheliperocha.com"
+
   name: cert-manager
   cloudflare_email: ""
 

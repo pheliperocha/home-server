@@ -1,17 +1,17 @@
-{{- if .Values.drone_launcher.enabled }}
+{{- if .Values.drone_launcher.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.drone_launcher.name }}-ingress
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-staging" 
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   tls:
     - hosts:
-        - {{ .Values.drone_launcher.localHostname }}
-      secretName: home-pheliperocha-com-staging-tls
+        - {{ .Values.drone_launcher.ingress.localHostname }}
+      secretName: home-pheliperocha-com-staging-key
   rules:
-    - host: {{ .Values.drone_launcher.localHostname }}
+    - host: {{ .Values.drone_launcher.ingress.localHostname }}
       http:
         paths:
           - path: /
