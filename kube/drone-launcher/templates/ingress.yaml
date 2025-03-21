@@ -4,12 +4,12 @@ kind: Ingress
 metadata:
   name: {{ .Values.drone_launcher.name }}-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
     - hosts:
         - {{ .Values.drone_launcher.ingress.localHostname }}
-      secretName: {{ .Values.drone_launcher.name }}-staging-ingress-tls
+      secretName: {{ .Values.drone_launcher.name }}-ingress-tls
   rules:
     - host: {{ .Values.drone_launcher.ingress.localHostname }}
       http:

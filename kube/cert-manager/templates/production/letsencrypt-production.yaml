@@ -1,0 +1,22 @@
+{{- if .Values.cert_manager.clusterIssuer.production.enabled }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.cert_manager.clusterIssuer.production.name }}
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: {{ .Values.cert_manager.cloudflare_email }}
+    privateKeySecretRef:
+      name: {{ .Values.cert_manager.clusterIssuer.production.name }}-key
+    solvers:
+      - dns01:
+          cloudflare:
+            email: {{ .Values.cert_manager.cloudflare_email }}
+            apiTokenSecretRef:
+              name: {{ .Values.cert_manager.name }}-secrets
+              key: CLOUDFLARE_API_TOKEN
+        selector:
+          dnsZones:
+            - {{ .Values.cert_manager.clusterIssuer.production.dnsZone | quote }}
+{{- end }}
