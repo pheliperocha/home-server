@@ -41,7 +41,9 @@ qbittorrent:
 kubernetesDashboard:
   enabled: true
   name: kubernetes-dashboard
-  localHostname: k8s.home.pheliperocha.com
+  ingress:
+    enabled: true
+    localHostname: k8s.home.pheliperocha.com
 
 k8up:
   enabled: true

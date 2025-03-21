@@ -1,12 +1,18 @@
-{{- if .Values.kubernetesDashboard.enabled }}
+{{- if .Values.kubernetesDashboard.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.kubernetesDashboard.name }}-ingress
   namespace: {{ .Values.kubernetesDashboard.name }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
+  tls:
+    - hosts:
+        - {{ .Values.kubernetesDashboard.ingress.localHostname }}
+      secretName: home-pheliperocha-com-staging-tls
   rules:
-    - host: {{ .Values.kubernetesDashboard.localHostname }}
+    - host: {{ .Values.kubernetesDashboard.ingress.localHostname }}
       http:
         paths:
           - path: /
