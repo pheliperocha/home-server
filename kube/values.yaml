@@ -15,11 +15,13 @@ homeassistant:
 nodered:
   enabled: true
   name: nodered
-  localHostname: nodered.home.pheliperocha.com
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: nodered.home.pheliperocha.com
 
 drone_launcher:
   enabled: true
