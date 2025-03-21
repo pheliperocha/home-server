@@ -25,6 +25,8 @@ cert-manager:
 
 drone_launcher:
   enabled: false
+  ingress:
+    enabled: false
   tunnel:
     enabled: false
 
