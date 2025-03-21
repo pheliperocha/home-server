@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: home-pheliperocha-com
+  namespace: default
+spec:
+  secretName: home-pheliperocha-com-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.home.pheliperocha.com"
+  dnsNames:
+  - "home.pheliperocha.com"
+  - "*.home.pheliperocha.com"

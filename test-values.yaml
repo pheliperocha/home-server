@@ -10,6 +10,9 @@ pg-homeassistant:
 nodered:
   enabled: false
 
+cert_manager:
+  enabled: false
+
 drone_launcher:
   enabled: false
   tunnel:

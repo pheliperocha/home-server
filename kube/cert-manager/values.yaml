@@ -1,0 +1,8 @@
+cert_manager:
+  enabled: true
+  name: cert-manager
+  cloudflare_email: ""
+
+cert-manager:
+  crds:
+    enabled: true
