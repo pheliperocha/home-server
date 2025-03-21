@@ -1,11 +1,17 @@
-{{- if .Values.kuma.enabled }}
+{{- if .Values.kuma.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.kuma.name }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
+  tls:
+    - hosts:
+        - {{ .Values.kuma.ingress.localHostname }}
+      secretName: {{ .Values.kuma.name }}-ingress-tls
   rules:
-    - host: {{ .Values.kuma.localHostname }}
+    - host: {{ .Values.kuma.ingress.localHostname }}
       http:
         paths:
           - path: /

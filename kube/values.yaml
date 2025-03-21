@@ -76,16 +76,18 @@ nfs:
 kuma:
   enabled: true
   name: kuma
-  localHostname: kuma.home.pheliperocha.com
-  publicHostname: kuma.pheliperocha.com
   port: 3001
   replicaCount: 1
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: kuma.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: kuma
+    publicHostname: kuma.pheliperocha.com
 
 ntfy:
   enabled: true
