@@ -1,11 +1,17 @@
-{{- if .Values.ntfy.enabled }}
+{{- if .Values.ntfy.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.ntfy.name }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
+  tls:
+    - hosts:
+        - {{ .Values.ntfy.ingress.localHostname }}
+      secretName: {{ .Values.ntfy.name }}-staging-ingress-tls
   rules:
-    - host: {{ .Values.ntfy.localHostname }}
+    - host: {{ .Values.ntfy.ingress.localHostname }}
       http:
         paths:
           - path: /

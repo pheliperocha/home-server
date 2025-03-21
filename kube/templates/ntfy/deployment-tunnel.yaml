@@ -73,7 +73,7 @@ data:
     metrics: 0.0.0.0:2000
     no-autoupdate: true
     ingress:
-    - hostname: {{ .Values.ntfy.publicHostname }}
+    - hostname: {{ .Values.ntfy.tunnel.publicHostname }}
       service: http://{{ .Values.ntfy.name }}-service.{{.Release.Namespace}}.svc.cluster.local.:{{ .Values.ntfy.port }}
     - service: http_status:404
 ---

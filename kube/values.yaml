@@ -92,17 +92,19 @@ kuma:
 ntfy:
   enabled: true
   name: ntfy
-  localHostname: ntfy.home.pheliperocha.com
-  publicHostname: ntfy.pheliperocha.com
   port: 80
   replicaCount: 1
   volumePath: /etc/ntfy
   serviceAccount:
     create: true
     annotations: {}
+  ingress:
+    enabled: true
+    localHostname: ntfy.home.pheliperocha.com
   tunnel:
     enabled: true
     cloudflare_name: ntfy
+    publicHostname: ntfy.pheliperocha.com
 
 # TODO: Use helmfile to have a different release for finance-project-staging
 pg-finance-project-staging:
