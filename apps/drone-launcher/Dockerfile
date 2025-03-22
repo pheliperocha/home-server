@@ -1,4 +1,4 @@
-FROM node:18.16-alpine As builder
+FROM node:18.16-alpine AS builder
 WORKDIR /app
 
 RUN apk update
@@ -16,7 +16,7 @@ RUN yarn install --frozen-lockfile --production
 
 RUN wget https://gobinaries.com/tj/node-prune --output-document - | /bin/sh && node-prune
 
-FROM node:18.16-alpine As runner
+FROM node:18.16-alpine AS runner
 
 RUN apk update
 

@@ -1,3 +1,11 @@
+export interface IAppConfigMap {
+  [appName: string]: {
+    repository: string;
+    namespace: string;
+    allowedUsers: { id: number; login: string }[];
+  };
+}
+
 export interface IConfig {
   gitToken: string;
   token: string;
@@ -5,12 +13,7 @@ export interface IConfig {
   ntfyToken: string;
 
   tempFolder: string;
-  appConfigMap: {
-    [appName: string]: {
-      repository: string;
-      namespace: string;
-    };
-  };
+  appConfigMap: IAppConfigMap;
 }
 
 // TODO: Valid that the envs are properly setted
@@ -25,14 +28,17 @@ export default (): IConfig => ({
     'finance-project': {
       repository: 'pheliperocha/finance-project',
       namespace: 'finance-project',
+      allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
     },
     'finance-project-dashboard': {
       repository: 'pheliperocha/finance-project-dashboard',
       namespace: 'finance-project',
+      allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
     },
     'nfe-reader': {
       repository: 'pheliperocha/nfe-reader',
       namespace: 'finance-project',
+      allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
     },
   },
 });
