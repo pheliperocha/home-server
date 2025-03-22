@@ -40,14 +40,6 @@ export class AppController {
       return;
     }
 
-    if (body.sender) {
-      console.log('sender:', JSON.stringify(body.sender));
-    }
-
-    if (body.pusher) {
-      console.log('pusher:', JSON.stringify(body.pusher));
-    }
-
     const enqueuLaunchProcessDto: EnqueuLaunchProcessDto = {
       appName: body.data.app_name,
       target: body.data.target,
