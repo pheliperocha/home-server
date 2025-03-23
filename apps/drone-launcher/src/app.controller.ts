@@ -30,11 +30,7 @@ export class AppController {
   @Post('/hook')
   @UseGuards(AuthGuard, AppGuard)
   async test(@Body() body: GithubHookBody): Promise<string> {
-    if (
-      !body?.data?.app_name ||
-      !body?.data?.target ||
-      !body?.head_commit?.id
-    ) {
+    if (!body?.data?.app_name || !body?.data?.target || !body?.after) {
       console.error('Missing required data', { body: JSON.stringify(body) });
       return;
     }
@@ -47,7 +43,7 @@ export class AppController {
     const enqueuLaunchProcessDto: EnqueuLaunchProcessDto = {
       appName: body.data.app_name,
       target: body.data.target,
-      commitId: body.data?.commitId || body.head_commit.id,
+      commitId: body.data?.commitId || body?.after || body.head_commit.id,
     };
 
     return this.appService.enqueuLaunchProcess(enqueuLaunchProcessDto);
