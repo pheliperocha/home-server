@@ -69,3 +69,10 @@ releases:
     version: 1.0.0
     values:
       - ./kube/values.yaml
+
+  - name: drkumaone-launcher
+    namespace: kuma
+    chart: ./kube/kuma
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
