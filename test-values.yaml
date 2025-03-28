@@ -94,6 +94,9 @@ pihole:
 nfs:
   enabled: false
 
+grafana-k8s-monitoring:
+  enabled: false
+
 pg-finance-project-staging:
   enabled: false
 

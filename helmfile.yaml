@@ -1,6 +1,8 @@
 repositories:
   - name: postgresql
     url: https://charts.bitnami.com/bitnami
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
 
 releases:
   - name: cert-manager
@@ -69,3 +71,11 @@ releases:
     version: 1.0.0
     values:
       - ./kube/values.yaml
+
+  - name: grafana-k8s-monitoring
+    namespace: monitoring
+    chart: ./kube/grafana-k8s-monitoring
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+      - ./test-values.yaml

@@ -1,0 +1,17 @@
+apiVersion: v2
+name: grafana-k8s-monitoring
+description: A Helm chart for Grafana k8s Monitoring
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+  - https://github.com/pheliperocha/home-server/tree/main/kube/grafana-k8s-monitoring
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com
+dependencies:
+  - name: k8s-monitoring
+    version: "2.0.21"
+    repository: "https://grafana.github.io/helm-charts"
+    condition: grafana-k8s-monitoring.enabled
