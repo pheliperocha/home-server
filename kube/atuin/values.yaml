@@ -1,5 +1,5 @@
 atuin:
-  enabled: true
+  enabled: false
   name: atuin
   localHostname: atuin.home.pheliperocha.com
   port: 8888
@@ -7,10 +7,11 @@ atuin:
   openRegistration: true
 
 pg-atuin:
-  enabled: true
+  enabled: false
   global:
     postgresql:
       auth:
+        postgresPassword: "empty"
         database: atuin
         existingSecret: "atuin-pg-credentials"
         secretKeys:
