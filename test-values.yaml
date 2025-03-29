@@ -77,6 +77,8 @@ kuma:
   enabled: false
   tunnel:
     enabled: false
+  ingress:
+    enabled: false
 
 ntfy:
   enabled: false

@@ -73,23 +73,7 @@ minio:
       k8up.io/backup: "false"
 
 nfs:
-  enabled: true
-
-kuma:
-  enabled: true
-  name: kuma
-  port: 3001
-  replicaCount: 1
-  serviceAccount:
-    create: true
-    annotations: {}
-  ingress:
-    enabled: true
-    localHostname: kuma.home.pheliperocha.com
-  tunnel:
-    enabled: true
-    cloudflare_name: kuma
-    publicHostname: kuma.pheliperocha.com
+  enabled: false
 
 ntfy:
   enabled: true
