@@ -1,5 +1,5 @@
 pihole:
-  enabled: true
+  enabled: false
   name: pihole
   replicaCount: 1
   timezone: America/Sao_Paulo
