@@ -13,7 +13,7 @@ spec:
       app.kubernetes.io/name: "tunnel-{{ .Values.kuma.name }}"
       app.kubernetes.io/instance: {{ .Release.Name }}
       tunnel: "tunnel-{{ .Values.kuma.name }}"
-  replicas: 1
+  replicas: {{ .Values.kuma.tunnel.replicaCount }}
   template:
     metadata:
       labels:
