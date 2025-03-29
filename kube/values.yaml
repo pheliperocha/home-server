@@ -73,7 +73,7 @@ minio:
       k8up.io/backup: "false"
 
 nfs:
-  enabled: true
+  enabled: false
 
 ntfy:
   enabled: true
