@@ -1,0 +1,22 @@
+{{- if .Values.k8up.enabled }}
+apiVersion: k8up.io/v1
+kind: Schedule
+metadata:
+  name: schedule-backup
+  namespace: {{.Release.Namespace}}
+spec:
+  backend:
+  {{- with .Values.k8up.backend }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  check:
+    schedule: '0 1 * * 1' # At 01:00 on Monday
+  backup:
+    schedule: '0 2 * * 1' # At 02:00 on Monday
+    failedJobsHistoryLimit: 2
+    successfulJobsHistoryLimit: 2
+  prune:
+    schedule: '0 3 * * 1' # At 03:00 on Monday
+    retention:
+      keepLast: 5
+{{- end }}
