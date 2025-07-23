@@ -3,13 +3,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.drone_launcher.name }}-ingress
+  {{- if .Values.ingress.certificate.enabled }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- end }}
 spec:
+  ingressClassName: public
+  {{- if .Values.ingress.certificate.enabled }}
   tls:
     - hosts:
         - {{ .Values.drone_launcher.ingress.localHostname }}
       secretName: {{ .Values.drone_launcher.name }}-ingress-tls
+  {{- end }}
   rules:
     - host: {{ .Values.drone_launcher.ingress.localHostname }}
       http:

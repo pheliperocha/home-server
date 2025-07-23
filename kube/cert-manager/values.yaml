@@ -1,24 +1,24 @@
 cert_manager:
-  enabled: true
+  enabled: false
   clusterIssuer:
     staging:
-      enabled: true
+      enabled: false
       name: letsencrypt-staging
       dnsZone: "home.pheliperocha.com"
     production:
-      enabled: true
+      enabled: false
       name: letsencrypt-production
       dnsZone: "home.pheliperocha.com"
   certificate:
     staging:
-      enabled: true
+      enabled: false
       name: home-pheliperocha-com-staging
       commonName: "*.home.pheliperocha.com"
       dnsNames:
         - "home.pheliperocha.com"
         - "*.home.pheliperocha.com"
     production:
-      enabled: true
+      enabled: false
       name: home-pheliperocha-com
       commonName: "*.home.pheliperocha.com"
       dnsNames:
@@ -30,4 +30,4 @@ cert_manager:
 
 cert-manager:
   crds:
-    enabled: true
+    enabled: false

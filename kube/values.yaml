@@ -10,7 +10,7 @@ homeassistant:
     enabled: true
     localHostname: homeassistant.home.pheliperocha.com
   tunnel:
-    enabled: true
+    enabled: false
     cloudflare_name: home_assistant
     publicHostname: homeassistant.pheliperocha.com
 
@@ -25,15 +25,6 @@ nodered:
     enabled: true
     localHostname: nodered.home.pheliperocha.com
 
-drone_launcher:
-  enabled: true
-  name: drone-launcher
-  port: 80
-  localHostname: drone.home.pheliperocha.com
-  replicaCount: 1
-  tunnel:
-    enabled: true
-
 qbittorrent:
   enabled: false
   name: qbittorrent
@@ -43,14 +34,20 @@ qbittorrent:
     annotations: {}
 
 kubernetesDashboard:
-  enabled: true
   name: kubernetes-dashboard
   ingress:
     enabled: true
     localHostname: k8s.home.pheliperocha.com
 
+ingress:
+  loadBalancer:
+    enabled: true
+  certificate:
+    enabled: false # This indicate if the ingress TLS should be managed by cert-manager
+    clusterIssuerRef: letsencrypt-staging # This indicates which cluster issuer to use for the ingress TLS
+
 k8up:
-  enabled: true
+  enabled: false
   backend:
     s3:
       endpoint: https://s3.sa-east-1.amazonaws.com
@@ -88,7 +85,7 @@ ntfy:
     enabled: true
     localHostname: ntfy.home.pheliperocha.com
   tunnel:
-    enabled: true
+    enabled: false
     cloudflare_name: ntfy
     publicHostname: ntfy.pheliperocha.com
 
@@ -104,7 +101,7 @@ pg-finance-project-staging:
 
 # TODO: Use helmfile to have a different release for finance-project-production
 pg-finance-project-production:
-  enabled: true
+  enabled: false
   auth:
     database: fp_production
   primary:

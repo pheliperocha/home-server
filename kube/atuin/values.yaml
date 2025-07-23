@@ -3,7 +3,7 @@ atuin:
   name: atuin
   localHostname: atuin.home.pheliperocha.com
   port: 8888
-  replicaCount: 1
+  replicaCount: 0
   openRegistration: true
 
 pg-atuin:

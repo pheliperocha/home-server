@@ -10,5 +10,5 @@ kuma:
     enabled: true
     localHostname: kuma.home.pheliperocha.com
   tunnel:
-    enabled: true
-    replicaCount: 1
+    enabled: false
+    replicaCount: 0

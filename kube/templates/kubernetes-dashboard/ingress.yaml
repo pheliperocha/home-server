@@ -3,14 +3,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.kubernetesDashboard.name }}-ingress
-  namespace: {{ .Values.kubernetesDashboard.name }}
+  namespace: kube-system
+  {{- if .Values.ingress.certificate.enabled }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- end }}
 spec:
+  ingressClassName: public
+  {{- if .Values.ingress.certificate.enabled }}
   tls:
     - hosts:
-        - {{ .Values.kubernetesDashboard.ingress.localHostname }}
-      secretName: {{ .Values.kubernetesDashboard.name }}-ingress-tls
+        - {{ .Values.drone_launcher.ingress.localHostname }}
+      secretName: {{ .Values.drone_launcher.name }}-ingress-tls
+  {{- end }}
   rules:
     - host: {{ .Values.kubernetesDashboard.ingress.localHostname }}
       http:
