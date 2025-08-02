@@ -1,4 +1,4 @@
-{{- if .Values.k8up.enabled }}
+{{- if .Values.k8up.scheduleBackup }}
 apiVersion: k8up.io/v1
 kind: Schedule
 metadata:

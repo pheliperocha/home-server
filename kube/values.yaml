@@ -10,7 +10,7 @@ homeassistant:
     enabled: true
     localHostname: homeassistant.home.pheliperocha.com
   tunnel:
-    enabled: false
+    enabled: true
     cloudflare_name: home_assistant
     publicHostname: homeassistant.pheliperocha.com
 
@@ -47,7 +47,8 @@ ingress:
     clusterIssuerRef: letsencrypt-staging # This indicates which cluster issuer to use for the ingress TLS
 
 k8up:
-  enabled: false
+  enabled: true
+  scheduleBackup: false
   backend:
     s3:
       endpoint: https://s3.sa-east-1.amazonaws.com
@@ -101,7 +102,7 @@ pg-finance-project-staging:
 
 # TODO: Use helmfile to have a different release for finance-project-production
 pg-finance-project-production:
-  enabled: false
+  enabled: true
   auth:
     database: fp_production
   primary:

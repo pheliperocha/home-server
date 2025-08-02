@@ -7,4 +7,4 @@ drone_launcher:
     enabled: true
     localHostname: drone.home.pheliperocha.com
   tunnel:
-    enabled: false
+    enabled: true
