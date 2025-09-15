@@ -7,6 +7,10 @@ metadata:
   {{- if .Values.ingress.certificate.enabled }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- else }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   {{- end }}
 spec:
   ingressClassName: public
@@ -26,5 +30,5 @@ spec:
               service:
                 name: {{ .Values.kubernetesDashboard.name }}
                 port:
-                  number: 80
+                  number: 443
 {{- end }}

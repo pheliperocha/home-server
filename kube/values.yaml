@@ -86,7 +86,7 @@ ntfy:
     enabled: true
     localHostname: ntfy.home.pheliperocha.com
   tunnel:
-    enabled: false
+    enabled: true
     cloudflare_name: ntfy
     publicHostname: ntfy.pheliperocha.com
 
