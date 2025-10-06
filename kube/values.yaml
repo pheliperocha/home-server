@@ -44,7 +44,7 @@ ingress:
     enabled: true
   certificate:
     enabled: true # This indicate if the ingress TLS should be managed by cert-manager
-    clusterIssuerRef: letsencrypt-staging # This indicates which cluster issuer to use for the ingress TLS
+    clusterIssuerRef: letsencrypt-production # This indicates which cluster issuer to use for the ingress TLS
 
 k8up:
   enabled: true

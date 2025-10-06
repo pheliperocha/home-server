@@ -6,7 +6,7 @@ cert_manager:
       name: letsencrypt-staging
       dnsZone: "home.pheliperocha.com"
     production:
-      enabled: false
+      enabled: true
       name: letsencrypt-production
       dnsZone: "home.pheliperocha.com"
   certificate:
