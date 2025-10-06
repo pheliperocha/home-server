@@ -7,6 +7,8 @@ metadata:
   {{- if .Values.ingress.certificate.enabled }}
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   {{- else }}
   annotations:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
@@ -17,8 +19,8 @@ spec:
   {{- if .Values.ingress.certificate.enabled }}
   tls:
     - hosts:
-        - {{ .Values.drone_launcher.ingress.localHostname }}
-      secretName: {{ .Values.drone_launcher.name }}-ingress-tls
+        - {{ .Values.kubernetesDashboard.ingress.localHostname }}
+      secretName: {{ .Values.kubernetesDashboard.name }}-ingress-tls
   {{- end }}
   rules:
     - host: {{ .Values.kubernetesDashboard.ingress.localHostname }}

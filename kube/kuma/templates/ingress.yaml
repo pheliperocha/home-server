@@ -12,8 +12,8 @@ spec:
   {{- if .Values.ingress.certificate.enabled }}
   tls:
     - hosts:
-        - {{ .Values.drone_launcher.ingress.localHostname }}
-      secretName: {{ .Values.drone_launcher.name }}-ingress-tls
+        - {{ .Values.kuma.ingress.localHostname }}
+      secretName: {{ .Values.kuma.name }}-ingress-tls
   {{- end }}
   rules:
     - host: {{ .Values.kuma.ingress.localHostname }}

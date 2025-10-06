@@ -43,7 +43,7 @@ ingress:
   loadBalancer:
     enabled: true
   certificate:
-    enabled: false # This indicate if the ingress TLS should be managed by cert-manager
+    enabled: true # This indicate if the ingress TLS should be managed by cert-manager
     clusterIssuerRef: letsencrypt-staging # This indicates which cluster issuer to use for the ingress TLS
 
 k8up:

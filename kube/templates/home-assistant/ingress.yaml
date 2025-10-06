@@ -12,8 +12,8 @@ spec:
   {{- if .Values.ingress.certificate.enabled }}
   tls:
     - hosts:
-        - {{ .Values.drone_launcher.ingress.localHostname }}
-      secretName: {{ .Values.drone_launcher.name }}-ingress-tls
+        - {{ .Values.homeassistant.ingress.localHostname }}
+      secretName: {{ .Values.homeassistant.name }}-ingress-tls
   {{- end }}
   rules:
     - host: {{ .Values.homeassistant.ingress.localHostname }}
