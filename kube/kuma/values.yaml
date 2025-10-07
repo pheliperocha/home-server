@@ -12,3 +12,4 @@ kuma:
   tunnel:
     enabled: false
     replicaCount: 0
+  scheduleBackup: true

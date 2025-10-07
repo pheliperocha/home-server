@@ -1,3 +1,4 @@
+{{- if .Values.k8up.enabled }}
 {{- if .Values.k8up.scheduleBackup }}
 apiVersion: k8up.io/v1
 kind: Schedule
@@ -19,4 +20,5 @@ spec:
     schedule: '0 3 * * 1' # At 03:00 on Monday
     retention:
       keepLast: 5
+{{- end }}
 {{- end }}
