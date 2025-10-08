@@ -48,7 +48,7 @@ ingress:
 
 k8up:
   enabled: true
-  scheduleBackup: false
+  scheduleBackup: true
   backend:
     s3:
       endpoint: https://s3.sa-east-1.amazonaws.com
