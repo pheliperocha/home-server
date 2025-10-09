@@ -99,8 +99,6 @@ This repository demonstrates production-ready security practices:
 - **No Hardcoded Secrets**: All sensitive data via environment variables
 - **Encrypted Secret Management**: All cluster secrets are managed in a separate private repository using [SOPS](https://github.com/mozilla/sops) for encryption
 - **Secure Remote Access**: Cloudflare Tunnel provides secure internet exposure without opening firewall ports
-- **Authentication & Authorization**: Multi-layer security model
-- **Input Validation**: Comprehensive request validation
 - **Secure Communications**: TLS everywhere
 - **Principle of Least Privilege**: Minimal required permissions
 
