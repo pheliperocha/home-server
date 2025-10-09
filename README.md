@@ -52,7 +52,7 @@ This is a production-ready Kubernetes-based home server that automates deploymen
 | Logo | Service | Description |
 |------|---------|-------------|
 | ![cert-manager](https://img.shields.io/badge/cert--manager-FF6C37?style=for-the-badge&logo=letsencrypt&logoColor=white) | **[cert-manager](https://cert-manager.io/)** | Automated TLS certificate management |
-| ![NGINX](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) | **Ingress Controllers** | Traffic routing and SSL termination |
+| ![NGINX](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) | **[NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)** | Traffic routing and SSL termination |
 | ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white) | **[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)** | Secure remote access without port forwarding |
 | ![K8up](https://img.shields.io/badge/K8up-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white) | **[K8up](https://k8up.io/)** | Automated backup system |
 | ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) | **[Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)** | Cluster management interface |
