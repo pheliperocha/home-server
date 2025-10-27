@@ -23,8 +23,10 @@ export class LaunchProcessLogRepository {
 
   async getOldest(processId: string): Promise<LaunchProcessLog> {
     const result = await this.launchProcessLogRepository.find({
-      processId,
-      fetched: false,
+      where: {
+        processId,
+        fetched: false,
+      },
     });
 
     return result[0];
