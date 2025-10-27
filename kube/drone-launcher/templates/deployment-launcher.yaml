@@ -22,7 +22,7 @@ spec:
         - name: docker-registry-credentials
       containers:
       - name: {{ .Values.drone_launcher.name }}
-        image: pheliperocha/home-server:drone-launcher-v2.1.6
+        image: pheliperocha/home-server:drone-launcher-v2.1.7
         imagePullPolicy: Always
         command: # TODO: Run the drone launcher nodejs app
         - /bin/sh
