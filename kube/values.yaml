@@ -124,3 +124,15 @@ pg-homeassistant:
       persistence:
         annotations:
           k8up.io/backup: "false"
+
+vk-finance-project-staging:
+  enabled: true
+  auth:
+    enabled: true
+    usersExistingSecret: "vk-finance-project-staging-secrets"
+
+vk-finance-project-production:
+  enabled: true
+  auth:
+    enabled: true
+    usersExistingSecret: "vk-finance-project-production-secrets"
