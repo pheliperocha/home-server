@@ -34,3 +34,13 @@ dependencies:
     version: "12.9.0"
     repository: "https://charts.bitnami.com/bitnami"
     condition: minio.enabled
+  - name: valkey
+    version: "0.8.1"
+    repository: "https://valkey.io/valkey-helm/"
+    alias: vk-finance-project-staging
+    condition: vk-finance-project-staging.enabled
+  - name: valkey
+    version: "0.8.1"
+    repository: "https://valkey.io/valkey-helm/"
+    alias: vk-finance-project-production
+    condition: vk-finance-project-production.enabled
