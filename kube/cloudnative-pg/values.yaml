@@ -1,0 +1,19 @@
+cloudnative_pg:
+  enabled: true
+
+# CloudNative-PG operator configuration
+# For full configuration options, see: https://github.com/cloudnative-pg/charts
+cloudnative-pg:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  
+  # Monitoring integration
+  monitoring:
+    podMonitorEnabled: false
+    grafanaDashboard:
+      create: false

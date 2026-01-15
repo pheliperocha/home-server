@@ -1,0 +1,56 @@
+pg_finance_project_staging:
+  enabled: true
+  
+  database:
+    name: fp_staging
+  
+  cluster:
+    instances: 1
+    
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1000m"
+    
+    storage:
+      size: 10Gi
+      storageClass: ""  # Use cluster default
+    
+    postgresql:
+      parameters:
+        max_connections: "100"
+        shared_buffers: "256MB"
+        effective_cache_size: "1GB"
+        maintenance_work_mem: "64MB"
+        checkpoint_completion_target: "0.9"
+        wal_buffers: "16MB"
+        default_statistics_target: "100"
+        random_page_cost: "1.1"
+        effective_io_concurrency: "200"
+        work_mem: "2621kB"
+        min_wal_size: "1GB"
+        max_wal_size: "4GB"
+  
+  backup:
+    enabled: false
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retentionPolicy: "30d"
+    s3:
+      endpointURL: "https://s3.sa-east-1.amazonaws.com"
+      bucket: "home-server-backups"
+      path: "/finance-project-staging-postgresql"
+      # Credentials referenced from k8up-secrets in home-server namespace
+      credentialsSecretName: "k8up-secrets"
+  
+  service:
+    name: "home-server-pg-finance-project-staging"
+    type: ClusterIP
+    port: 5432
+  
+  networkPolicy:
+    enabled: true
+    # Only allow connections from pods in the same namespace
+    allowSameNamespace: true

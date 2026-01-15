@@ -90,7 +90,7 @@ ntfy:
     cloudflare_name: ntfy
     publicHostname: ntfy.pheliperocha.com
 
-# TODO: Use helmfile to have a different release for finance-project-staging
+# TODO: Remove after migration to CloudNative-PG
 pg-finance-project-staging:
   enabled: true
   auth:

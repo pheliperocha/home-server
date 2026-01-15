@@ -15,6 +15,7 @@ dependencies:
     version: "4.4.3"
     repository: "https://k8up-io.github.io/k8up"
     condition: k8up.enabled
+  # TODO: Remove this dependency after migration to CloudNative-PG
   - name: postgresql
     version: "12.5.5"
     repository: "https://charts.bitnami.com/bitnami"

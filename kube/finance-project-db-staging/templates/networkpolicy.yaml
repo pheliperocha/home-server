@@ -1,0 +1,34 @@
+{{- if and .Values.pg_finance_project_staging.enabled .Values.pg_finance_project_staging.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "finance-project-db-staging.clusterName" . }}-netpol
+  namespace: finance-project-staging
+  labels:
+    {{- include "finance-project-db-staging.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      cnpg.io/cluster: {{ include "finance-project-db-staging.clusterName" . }}
+  policyTypes:
+    - Ingress
+  ingress:
+    {{- if .Values.pg_finance_project_staging.networkPolicy.allowSameNamespace }}
+    # Allow connections from pods in the same namespace
+    - from:
+      - podSelector: {}
+      ports:
+      - protocol: TCP
+        port: 5432
+    {{- end }}
+    # Allow connections from CloudNative-PG operator
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: cloudnative-pg-system
+      ports:
+      - protocol: TCP
+        port: 5432
+      - protocol: TCP
+        port: 8000
+{{- end }}

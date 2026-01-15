@@ -1,0 +1,16 @@
+{{- if and .Values.pg_finance_project_staging.enabled .Values.pg_finance_project_staging.backup.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: {{ include "finance-project-db-staging.clusterName" . }}-backup
+  namespace: finance-project-staging
+  labels:
+    {{- include "finance-project-db-staging.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.pg_finance_project_staging.backup.schedule | quote }}
+  backupOwnerReference: self
+  cluster:
+    name: {{ include "finance-project-db-staging.clusterName" . }}
+  method: barmanObjectStore
+  immediate: false
+{{- end }}
