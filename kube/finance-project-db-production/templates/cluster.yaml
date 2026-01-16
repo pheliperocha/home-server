@@ -1,0 +1,65 @@
+{{- if .Values.pg_finance_project_production.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "finance-project-db-production.clusterName" . }}
+  namespace: finance-project-production
+  labels:
+    {{- include "finance-project-db-production.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.pg_finance_project_production.cluster.instances }}
+  
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  
+  bootstrap:
+    initdb:
+      database: {{ .Values.pg_finance_project_production.database.name }}
+      owner: app
+      encoding: UTF8
+      localeCType: en_US.UTF-8
+      localeCollate: en_US.UTF-8
+  
+  storage:
+    size: {{ .Values.pg_finance_project_production.cluster.storage.size }}
+    {{- if .Values.pg_finance_project_production.cluster.storage.storageClass }}
+    storageClass: {{ .Values.pg_finance_project_production.cluster.storage.storageClass }}
+    {{- end }}
+  
+  resources:
+    requests:
+      memory: {{ .Values.pg_finance_project_production.cluster.resources.requests.memory | quote }}
+      cpu: {{ .Values.pg_finance_project_production.cluster.resources.requests.cpu | quote }}
+    limits:
+      memory: {{ .Values.pg_finance_project_production.cluster.resources.limits.memory | quote }}
+      cpu: {{ .Values.pg_finance_project_production.cluster.resources.limits.cpu | quote }}
+  
+  postgresql:
+    parameters:
+      {{- range $key, $value := .Values.pg_finance_project_production.cluster.postgresql.parameters }}
+      {{ $key }}: {{ $value | quote }}
+      {{- end }}
+  
+  monitoring:
+    enablePodMonitor: true
+  
+  {{- if .Values.pg_finance_project_production.backup.enabled }}
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://{{ .Values.pg_finance_project_production.backup.s3.bucket }}{{ .Values.pg_finance_project_production.backup.s3.path }}"
+      endpointURL: {{ .Values.pg_finance_project_production.backup.s3.endpointURL }}
+      s3Credentials:
+        accessKeyId:
+          name: {{ .Values.pg_finance_project_production.backup.s3.credentialsSecretName }}
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: {{ .Values.pg_finance_project_production.backup.s3.credentialsSecretName }}
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        encryption: AES256
+      data:
+        compression: gzip
+        encryption: AES256
+    retentionPolicy: {{ .Values.pg_finance_project_production.backup.retentionPolicy | quote }}
+  {{- end }}
+{{- end }}

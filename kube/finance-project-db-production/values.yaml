@@ -1,8 +1,8 @@
-pg_finance_project_staging:
+pg_finance_project_production:
   enabled: true
   
   database:
-    name: fp_staging
+    name: fp_production
   
   cluster:
     instances: 1
@@ -41,11 +41,11 @@ pg_finance_project_staging:
     s3:
       endpointURL: "https://s3.sa-east-1.amazonaws.com"
       bucket: "home-server-backups"
-      path: "/finance-project-staging-postgresql"
-      credentialsSecretName: "aws-credentials" # TODO: Create a new secret for aws credentials for staging environment
+      path: "/finance-project-production-postgresql"
+      credentialsSecretName: "aws-credentials" # TODO: Create a new secret for aws credentials for production environment
   
   service:
-    name: "home-server-pg-finance-project-staging"
+    name: "pg-finance-project-production"
     type: ClusterIP
     port: 5432
   

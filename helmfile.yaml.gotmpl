@@ -92,3 +92,12 @@ releases:
       - ./kube/values.yaml
     secrets:
       - ./kube/secrets.yaml
+
+  - name: finance-project-db-production
+    namespace: finance-project-production
+    chart: ./kube/finance-project-db-production
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+    secrets:
+      - ./kube/secrets.yaml
