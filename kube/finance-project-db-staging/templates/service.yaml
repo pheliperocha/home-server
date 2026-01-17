@@ -1,0 +1,19 @@
+{{- if .Values.pg_finance_project_staging.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.pg_finance_project_staging.service.name }}
+  namespace: finance-project-staging
+  labels:
+    {{- include "finance-project-db-staging.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.pg_finance_project_staging.service.type }}
+  ports:
+    - name: postgres
+      port: {{ .Values.pg_finance_project_staging.service.port }}
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    cnpg.io/cluster: {{ include "finance-project-db-staging.clusterName" . }}
+    role: primary
+{{- end }}

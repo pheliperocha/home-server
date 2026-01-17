@@ -90,29 +90,6 @@ ntfy:
     cloudflare_name: ntfy
     publicHostname: ntfy.pheliperocha.com
 
-# TODO: Use helmfile to have a different release for finance-project-staging
-pg-finance-project-staging:
-  enabled: true
-  auth:
-    database: fp_staging
-  primary:
-    persistence:
-      annotations:
-        k8up.io/backup: "false"
-
-# TODO: Use helmfile to have a different release for finance-project-production
-pg-finance-project-production:
-  enabled: true
-  auth:
-    database: fp_production
-  primary:
-    podAnnotations:
-      k8up.io/backupcommand: sh -c 'PGPASSWORD=$POSTGRES_PASSWORD PGDATABASE="$POSTGRES_DB" pg_dump -U postgres --clean'
-      k8up.io/file-extension: "-pg-finance-project-production.sql"
-    persistence:
-      annotations:
-        k8up.io/backup: "false"
-
 pg-homeassistant:
     enabled: true
     auth:

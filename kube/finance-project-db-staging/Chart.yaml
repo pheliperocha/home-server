@@ -1,0 +1,12 @@
+apiVersion: v2
+name: finance-project-db-staging
+description: Finance Project Staging Database (CloudNative-PG)
+type: application
+version: 1.0.0
+appVersion: "17.2.0"
+kubeVersion: "^1.20.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com

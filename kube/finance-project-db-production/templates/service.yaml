@@ -1,0 +1,19 @@
+{{- if .Values.pg_finance_project_production.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.pg_finance_project_production.service.name }}
+  namespace: finance-project-production
+  labels:
+    {{- include "finance-project-db-production.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.pg_finance_project_production.service.type }}
+  ports:
+    - name: postgres
+      port: {{ .Values.pg_finance_project_production.service.port }}
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    cnpg.io/cluster: {{ include "finance-project-db-production.clusterName" . }}
+    role: primary
+{{- end }}
