@@ -36,13 +36,13 @@ pg_finance_project_staging:
   
   backup:
     enabled: false
-    schedule: "0 2 * * 1"  # Weekly on Monday at 2 AM
-    retentionPolicy: "45d"
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retentionPolicy: "30d"
     s3:
       endpointURL: "https://s3.sa-east-1.amazonaws.com"
-      bucket: "home-server-backups"
-      path: "/finance-project-staging-postgresql"
-      credentialsSecretName: "aws-credentials" # TODO: Create a new secret for aws credentials for staging environment
+      bucket: "finance-project-backups"
+      path: "/cnpg-staging"
+      credentialsSecretName: "aws-secrets"
   
   service:
     name: "home-server-pg-finance-project-staging"

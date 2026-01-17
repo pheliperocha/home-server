@@ -1,0 +1,10 @@
+{{- if and .Values.pg_finance_project_production.enabled .Values.pg_finance_project_production.backup.enabled .Values.pg_finance_project_production.backup.manualBackup.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: cnpg-manual-backup-{{ .Values.pg_finance_project_production.backup.manualBackup.suffix }}
+  namespace: finance-project-production
+spec:
+  cluster:
+    name: pg-finance-project-production
+{{- end }}

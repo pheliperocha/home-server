@@ -35,14 +35,17 @@ pg_finance_project_production:
         max_wal_size: "4GB"
   
   backup:
-    enabled: false
-    schedule: "0 2 * * 1"  # Weekly on Monday at 2 AM
-    retentionPolicy: "45d"
+    enabled: true
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retentionPolicy: "30d"
     s3:
       endpointURL: "https://s3.sa-east-1.amazonaws.com"
-      bucket: "home-server-backups"
-      path: "/finance-project-production-postgresql"
-      credentialsSecretName: "aws-credentials" # TODO: Create a new secret for aws credentials for production environment
+      bucket: "finance-project-backups"
+      path: "/cnpg-production"
+      credentialsSecretName: "aws-secrets"
+    manualBackup:
+      enabled: false
+      suffix: ""
   
   service:
     name: "pg-finance-project-production"
