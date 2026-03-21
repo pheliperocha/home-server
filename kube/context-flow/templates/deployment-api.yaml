@@ -22,7 +22,7 @@ spec:
         - name: docker-registry-credentials
       containers:
       - name: {{ .Values.context_flow.name }}-api
-        image: pheliperocha/home-server:context-flow-api-1.0.0
+        image: {{ .Values.context_flow.api.image }}
         imagePullPolicy: Always
         ports:
           - name: http

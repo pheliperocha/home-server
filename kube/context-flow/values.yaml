@@ -11,5 +11,7 @@ context_flow:
     enabled: true
   web:
     replicaCount: 1
+    image: pheliperocha/home-server:context-flow-web-1.0.0
   api:
     replicaCount: 1
+    image: pheliperocha/home-server:context-flow-api-1.0.0

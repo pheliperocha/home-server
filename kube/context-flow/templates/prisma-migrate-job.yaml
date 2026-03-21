@@ -25,7 +25,7 @@ spec:
 
       containers:
         - name: prisma-migrate
-          image: pheliperocha/home-server:context-flow-api
+          image: {{ .Values.context_flow.api.image }}
           imagePullPolicy: Always
 
           command:
