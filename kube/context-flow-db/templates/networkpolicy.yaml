@@ -25,7 +25,7 @@ spec:
     - from:
       - namespaceSelector:
           matchLabels:
-            name: cloudnative-pg-system
+            kubernetes.io/metadata.name: cloudnative-pg-system
       ports:
       - protocol: TCP
         port: 5432
