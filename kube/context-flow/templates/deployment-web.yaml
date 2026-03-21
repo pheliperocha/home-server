@@ -1,0 +1,50 @@
+{{- if .Values.context_flow.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.context_flow.name }}-web
+  labels:
+    {{- include "context_flow.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.context_flow.name }}-web
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  replicas: {{ .Values.context_flow.web.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Values.context_flow.name }}-web
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ .Values.context_flow.name }}-serviceaccount
+      imagePullSecrets:
+        - name: docker-registry-credentials
+      containers:
+      - name: {{ .Values.context_flow.name }}-web
+        image: {{ .Values.context_flow.web.image }}
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: {{ .Values.context_flow.port }}
+            protocol: TCP
+        envFrom:
+          - secretRef:
+              name: context-flow-secrets
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 10
+{{- end }}

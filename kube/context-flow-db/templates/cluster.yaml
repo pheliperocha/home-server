@@ -1,0 +1,65 @@
+{{- if .Values.context_flow_db.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "context-flow-db.clusterName" . }}
+  namespace: context-flow
+  labels:
+    {{- include "context-flow-db.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.context_flow_db.cluster.instances }}
+  
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1
+  
+  bootstrap:
+    initdb:
+      database: {{ .Values.context_flow_db.database.name }}
+      owner: app
+      encoding: UTF8
+      localeCType: en_US.UTF-8
+      localeCollate: en_US.UTF-8
+  
+  storage:
+    size: {{ .Values.context_flow_db.cluster.storage.size }}
+    {{- if .Values.context_flow_db.cluster.storage.storageClass }}
+    storageClass: {{ .Values.context_flow_db.cluster.storage.storageClass }}
+    {{- end }}
+  
+  resources:
+    requests:
+      memory: {{ .Values.context_flow_db.cluster.resources.requests.memory | quote }}
+      cpu: {{ .Values.context_flow_db.cluster.resources.requests.cpu | quote }}
+    limits:
+      memory: {{ .Values.context_flow_db.cluster.resources.limits.memory | quote }}
+      cpu: {{ .Values.context_flow_db.cluster.resources.limits.cpu | quote }}
+  
+  postgresql:
+    parameters:
+      {{- range $key, $value := .Values.context_flow_db.cluster.postgresql.parameters }}
+      {{ $key }}: {{ $value | quote }}
+      {{- end }}
+  
+  monitoring:
+    enablePodMonitor: true
+  
+  {{- if .Values.context_flow_db.backup.enabled }}
+  backup:
+    barmanObjectStore:
+      destinationPath: "s3://{{ .Values.context_flow_db.backup.s3.bucket }}{{ .Values.context_flow_db.backup.s3.path }}"
+      endpointURL: {{ .Values.context_flow_db.backup.s3.endpointURL }}
+      s3Credentials:
+        accessKeyId:
+          name: {{ .Values.context_flow_db.backup.s3.credentialsSecretName }}
+          key: AWS_ACCESS_KEY_ID
+        secretAccessKey:
+          name: {{ .Values.context_flow_db.backup.s3.credentialsSecretName }}
+          key: AWS_SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        encryption: AES256
+      data:
+        compression: gzip
+        encryption: AES256
+    retentionPolicy: {{ .Values.context_flow_db.backup.retentionPolicy | quote }}
+  {{- end }}
+{{- end }}

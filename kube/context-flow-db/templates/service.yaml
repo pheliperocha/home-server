@@ -1,0 +1,19 @@
+{{- if .Values.context_flow_db.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.context_flow_db.service.name }}
+  namespace: context-flow
+  labels:
+    {{- include "context-flow-db.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.context_flow_db.service.type }}
+  ports:
+    - name: postgres
+      port: {{ .Values.context_flow_db.service.port }}
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    cnpg.io/cluster: {{ include "context-flow-db.clusterName" . }}
+    role: primary
+{{- end }}

@@ -1,0 +1,10 @@
+{{- if and .Values.context_flow_db.enabled .Values.context_flow_db.backup.enabled .Values.context_flow_db.backup.manualBackup.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: cnpg-manual-backup{{- if .Values.context_flow_db.backup.manualBackup.suffix }}-{{ .Values.context_flow_db.backup.manualBackup.suffix }}{{- end }}
+  namespace: context-flow
+spec:
+  cluster:
+    name: {{ include "context-flow-db.clusterName" . }}
+{{- end }}

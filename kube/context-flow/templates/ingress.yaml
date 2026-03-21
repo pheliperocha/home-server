@@ -1,0 +1,39 @@
+{{- if and .Values.context_flow.enabled .Values.context_flow.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.context_flow.name }}-ingress
+  {{- if .Values.ingress.certificate.enabled }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- end }}
+spec:
+  ingressClassName: public
+  {{- if .Values.ingress.certificate.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.context_flow.ingress.localHostname }}
+      secretName: {{ .Values.context_flow.name }}-ingress-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.context_flow.ingress.localHostname }}
+      http:
+        paths:
+          # Backend API
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.context_flow.name }}-api-service
+                port:
+                  number: {{ .Values.context_flow.port }}
+
+          # Frontend
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.context_flow.name }}-web-service
+                port:
+                  number: {{ .Values.context_flow.port }}
+{{- end }}

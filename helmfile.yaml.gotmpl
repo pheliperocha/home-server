@@ -101,3 +101,19 @@ releases:
       - ./kube/values.yaml
     secrets:
       - ./kube/secrets.yaml
+
+  - name: context-flow
+    namespace: context-flow
+    chart: ./kube/context-flow
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+  
+  - name: context-flow-db
+    namespace: context-flow
+    chart: ./kube/context-flow-db
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+    secrets:
+      - ./kube/secrets.yaml
