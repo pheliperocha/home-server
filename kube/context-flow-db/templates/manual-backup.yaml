@@ -6,5 +6,5 @@ metadata:
   namespace: context-flow
 spec:
   cluster:
-    name: pg-context-flow-db
+    name: {{ include "context-flow-db.clusterName" . }}
 {{- end }}
