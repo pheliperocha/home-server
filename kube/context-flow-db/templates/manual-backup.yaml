@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
-  name: cnpg-manual-backup-{{ .Values.context_flow_db.backup.manualBackup.suffix }}
+  name: cnpg-manual-backup{{- if .Values.context_flow_db.backup.manualBackup.suffix }}-{{ .Values.context_flow_db.backup.manualBackup.suffix }}{{- end }}
   namespace: context-flow
 spec:
   cluster:
