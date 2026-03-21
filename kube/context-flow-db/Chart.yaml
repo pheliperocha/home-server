@@ -3,7 +3,7 @@ name: context-flow-db
 description: Context Flow Database (CloudNative-PG)
 type: application
 version: 1.0.0
-appVersion: "17.2.0"
+appVersion: "18.1"
 kubeVersion: "^1.20.0"
 sources:
   - https://github.com/pheliperocha/home-server
