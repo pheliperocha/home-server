@@ -1,0 +1,15 @@
+context_flow:
+  enabled: true
+  name: context-flow
+  port: 3000
+  ingress:
+    enabled: true
+    localHostname: context-flow.home.pheliperocha.com
+  tunnel:
+    enabled: true
+  migration:
+    enabled: true
+  web:
+    replicaCount: 1
+  api:
+    replicaCount: 1

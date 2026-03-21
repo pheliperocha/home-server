@@ -1,0 +1,10 @@
+apiVersion: v2
+name: context-flow
+description: Helm chart for context-flow
+type: application
+version: 1.0.0
+appVersion: "2.1.0"
+kubeVersion: "^1.20.0"
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com
