@@ -40,5 +40,10 @@ export default (): IConfig => ({
       namespace: 'finance-project',
       allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
     },
+    'skill-graph': {
+      repository: 'pheliperocha/skill_graph',
+      namespace: 'skill-graph',
+      allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
+    },
   },
 });
