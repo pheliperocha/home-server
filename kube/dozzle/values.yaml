@@ -1,0 +1,8 @@
+dozzle:
+  enabled: true
+  name: dozzle
+  port: 8080
+  replicaCount: 1
+  ingress:
+    enabled: true
+    localHostname: dozzle.home.pheliperocha.com

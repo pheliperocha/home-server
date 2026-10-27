@@ -1,0 +1,13 @@
+apiVersion: v2
+name: dozzle
+description: Helm chart for Dozzle
+type: application
+version: 1.0.0
+appVersion: "8.14.10"
+kubeVersion: "^1.20.0"
+sources:
+  - https://github.com/pheliperocha/home-server
+  - https://github.com/pheliperocha/home-server/tree/main/kube/drone
+maintainers:
+  - name: Phelipe Rocha
+    url: https://pheliperocha.com

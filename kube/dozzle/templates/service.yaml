@@ -1,0 +1,14 @@
+{{- if .Values.dozzle.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.dozzle.name }}-service
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.dozzle.name }}
+  ports:
+    - port: {{ .Values.dozzle.port }}
+      targetPort: {{ .Values.dozzle.port }}
+      protocol: TCP
+{{- end }}

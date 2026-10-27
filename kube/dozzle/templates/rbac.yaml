@@ -1,0 +1,6 @@
+{{- if .Values.dozzle.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pod-viewer
+{{- end }}
