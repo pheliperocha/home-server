@@ -1,0 +1,29 @@
+{{- if .Values.dozzle.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.dozzle.name }}-ingress
+  {{- if .Values.ingress.certificate.enabled }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- end }}
+spec:
+  ingressClassName: public
+  {{- if .Values.ingress.certificate.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.dozzle.ingress.localHostname }}
+      secretName: {{ .Values.dozzle.name }}-ingress-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.dozzle.ingress.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.dozzle.name }}-service
+                port:
+                  number: {{ .Values.dozzle.port }}
+{{- end }}

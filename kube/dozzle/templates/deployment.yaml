@@ -1,0 +1,27 @@
+{{- if .Values.dozzle.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.dozzle.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.dozzle.name }}
+  replicas: {{ .Values.dozzle.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.dozzle.name }}
+    spec:
+      serviceAccountName: pod-viewer
+      containers:
+        - name: {{ .Values.dozzle.name }}
+          image: amir20/dozzle:latest
+          ports:
+            - containerPort: {{ .Values.dozzle.port }}
+          env:
+            - name: DOZZLE_MODE
+              value: "k8s"
+            - name: DOZZLE_ENABLE_MCP
+              value: "true"
+{{- end }}
