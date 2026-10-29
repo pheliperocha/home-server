@@ -1,0 +1,32 @@
+{{- if and .Values.lastro_db.enabled .Values.lastro_db.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "lastro-db.clusterName" . }}-netpol
+  namespace: lastro
+  labels:
+    {{- include "lastro-db.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      cnpg.io/cluster: {{ include "lastro-db.clusterName" . }}
+  policyTypes:
+    - Ingress
+  ingress:
+    {{- if .Values.lastro_db.networkPolicy.allowSameNamespace }}
+    - from:
+      - podSelector: {}
+      ports:
+      - protocol: TCP
+        port: 5432
+    {{- end }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: cloudnative-pg-system
+      ports:
+      - protocol: TCP
+        port: 5432
+      - protocol: TCP
+        port: 8000
+{{- end }}

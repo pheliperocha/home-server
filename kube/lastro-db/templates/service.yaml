@@ -1,0 +1,19 @@
+{{- if .Values.lastro_db.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.lastro_db.service.name }}
+  namespace: lastro
+  labels:
+    {{- include "lastro-db.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.lastro_db.service.type }}
+  ports:
+    - name: postgres
+      port: {{ .Values.lastro_db.service.port }}
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    cnpg.io/cluster: {{ include "lastro-db.clusterName" . }}
+    role: primary
+{{- end }}

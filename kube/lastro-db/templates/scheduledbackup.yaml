@@ -1,0 +1,16 @@
+{{- if and .Values.lastro_db.enabled .Values.lastro_db.backup.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: {{ include "lastro-db.clusterName" . }}-backup
+  namespace: lastro
+  labels:
+    {{- include "lastro-db.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.lastro_db.backup.schedule | quote }}
+  backupOwnerReference: self
+  cluster:
+    name: {{ include "lastro-db.clusterName" . }}
+  method: barmanObjectStore
+  immediate: false
+{{- end }}

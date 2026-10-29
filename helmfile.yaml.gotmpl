@@ -117,3 +117,19 @@ releases:
       - ./kube/values.yaml
     secrets:
       - ./kube/secrets.yaml
+
+  - name: lastro-db
+    namespace: lastro
+    chart: ./kube/lastro-db
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+
+  - name: lastro
+    namespace: lastro
+    chart: ./kube/lastro
+    version: 1.0.0
+    needs:
+      - lastro/lastro-db
+    values:
+      - ./kube/values.yaml

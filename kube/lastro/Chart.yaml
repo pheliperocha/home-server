@@ -1,0 +1,7 @@
+apiVersion: v2
+name: lastro
+description: Helm chart for Lastro (training app server, sync and MCP)
+type: application
+version: 1.0.0
+appVersion: "0.1.0"
+kubeVersion: "^1.20.0"
