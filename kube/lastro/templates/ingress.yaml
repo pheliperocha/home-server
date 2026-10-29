@@ -1,0 +1,29 @@
+{{- if and .Values.lastro.enabled .Values.lastro.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.lastro.name }}-ingress
+  {{- if .Values.ingress.certificate.enabled }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.certificate.clusterIssuerRef }}
+  {{- end }}
+spec:
+  ingressClassName: public
+  {{- if .Values.ingress.certificate.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.lastro.ingress.localHostname }}
+      secretName: {{ .Values.lastro.name }}-ingress-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.lastro.ingress.localHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.lastro.name }}-service
+                port:
+                  number: {{ .Values.lastro.port }}
+{{- end }}

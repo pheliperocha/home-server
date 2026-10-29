@@ -1,0 +1,57 @@
+{{- if .Values.lastro.enabled }}
+{{- if .Values.lastro.tunnel.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "tunnel-{{ .Values.lastro.name }}"
+  labels:
+    {{- include "lastro.labels" . | nindent 4 }}
+    tunnel: "tunnel-{{ .Values.lastro.name }}"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "tunnel-{{ .Values.lastro.name }}"
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      tunnel: "tunnel-{{ .Values.lastro.name }}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "tunnel-{{ .Values.lastro.name }}"
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        tunnel: "tunnel-{{ .Values.lastro.name }}"
+    spec:
+      containers:
+      - name: "tunnel-{{ .Values.lastro.name }}"
+        image: cloudflare/cloudflared:latest
+        args:
+        - tunnel
+        - --config
+        - /etc/cloudflared/config/config.yaml
+        - run
+        livenessProbe:
+          httpGet:
+            path: /ready
+            port: 2000
+          failureThreshold: 1
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        volumeMounts:
+        - name: "tunnel-{{ .Values.lastro.name }}-config"
+          mountPath: /etc/cloudflared/config
+          readOnly: true
+        - name: creds
+          mountPath: /etc/cloudflared/creds
+          readOnly: true
+      volumes:
+      - name: creds
+        secret:
+          secretName: "tunnel-{{ .Values.lastro.name }}-credentials"
+      - name: "tunnel-{{ .Values.lastro.name }}-config"
+        configMap:
+          name: "tunnel-{{ .Values.lastro.name }}-config"
+          items:
+          - key: config.yaml
+            path: config.yaml
+{{- end }}
+{{- end }}

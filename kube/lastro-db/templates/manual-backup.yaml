@@ -1,0 +1,10 @@
+{{- if and .Values.lastro_db.enabled .Values.lastro_db.backup.enabled .Values.lastro_db.backup.manualBackup.enabled }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: cnpg-manual-backup{{- if .Values.lastro_db.backup.manualBackup.suffix }}-{{ .Values.lastro_db.backup.manualBackup.suffix }}{{- end }}
+  namespace: lastro
+spec:
+  cluster:
+    name: {{ include "lastro-db.clusterName" . }}
+{{- end }}

@@ -1,0 +1,49 @@
+lastro_db:
+  enabled: true
+
+  database:
+    name: lastro
+
+  cluster:
+    instances: 1
+
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+
+    storage:
+      size: 5Gi
+      storageClass: ""
+
+    postgresql:
+      parameters:
+        max_connections: "50"
+        shared_buffers: "64MB"
+        effective_cache_size: "256MB"
+        work_mem: "4MB"
+
+  backup:
+    enabled: false
+    schedule: "0 0 3 * * *"
+    retentionPolicy: "30d"
+    s3:
+      endpointURL: "https://s3.sa-east-1.amazonaws.com"
+      bucket: "lastro-backups"
+      path: "/cnpg-production"
+      credentialsSecretName: "aws-secrets"
+    manualBackup:
+      enabled: false
+      suffix: ""
+
+  service:
+    name: "pg-lastro-db"
+    type: ClusterIP
+    port: 5432
+
+  networkPolicy:
+    enabled: true
+    allowSameNamespace: true
