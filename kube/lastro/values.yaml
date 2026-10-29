@@ -3,12 +3,13 @@ lastro:
   name: lastro
   port: 3000
   replicaCount: 1
-  image: pheliperocha/home-server:lastro-0.1.0
+  image: pheliperocha/home-server:lastro-0.2.0
   ingress:
     enabled: true
     localHostname: lastro.home.pheliperocha.com
   tunnel:
-    enabled: true
+    enabled: false
+  publicUrl: https://lastro.home.pheliperocha.com
   migration:
     enabled: true
   databaseSecret: lastro-db-app
