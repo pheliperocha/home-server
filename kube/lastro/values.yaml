@@ -3,7 +3,7 @@ lastro:
   name: lastro
   port: 3000
   replicaCount: 1
-  image: pheliperocha/home-server:lastro-0.4.0
+  image: pheliperocha/home-server:lastro-0.4.1
   ingress:
     enabled: true
     localHostname: lastro.home.pheliperocha.com
