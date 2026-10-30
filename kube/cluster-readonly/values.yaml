@@ -1,0 +1,5 @@
+clusterReadonly:
+  enabled: true
+  name: claude-readonly
+  # The ServiceAccount must live in an existing namespace.
+  namespace: kube-system

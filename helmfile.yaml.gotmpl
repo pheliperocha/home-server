@@ -133,3 +133,10 @@ releases:
       - lastro/lastro-db
     values:
       - ./kube/values.yaml
+
+  - name: cluster-readonly
+    namespace: kube-system
+    chart: ./kube/cluster-readonly
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
