@@ -84,6 +84,13 @@ releases:
     values:
       - ./kube/values.yaml
 
+  - name: dozzle
+    namespace: dozzle
+    chart: ./kube/dozzle
+    version: 1.0.0
+    values:
+      - ./kube/values.yaml
+
   - name: finance-project-db-staging
     namespace: finance-project-staging
     chart: ./kube/finance-project-db-staging
