@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
   name: cnpg-manual-backup{{- if .Values.lastro_db.backup.manualBackup.suffix }}-{{ .Values.lastro_db.backup.manualBackup.suffix }}{{- end }}
-  namespace: lastro
+  namespace: {{ .Release.Namespace }}
 spec:
   cluster:
     name: {{ include "lastro-db.clusterName" . }}

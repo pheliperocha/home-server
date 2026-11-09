@@ -1,12 +1,12 @@
 pg_finance_project_production:
   enabled: true
-  
+
   database:
     name: fp_production
-  
+
   cluster:
     instances: 1
-    
+
     resources:
       requests:
         memory: "1Gi"
@@ -14,11 +14,11 @@ pg_finance_project_production:
       limits:
         memory: "2Gi"
         cpu: "1000m"
-    
+
     storage:
       size: 10Gi
-      storageClass: ""  # Use cluster default
-    
+      storageClass: "" # Use cluster default
+
     postgresql:
       parameters:
         max_connections: "100"
@@ -33,25 +33,37 @@ pg_finance_project_production:
         work_mem: "2621kB"
         min_wal_size: "1GB"
         max_wal_size: "4GB"
-  
+
   backup:
     enabled: true
-    schedule: "0 2 * * *"  # Daily at 2 AM
+    schedule: "0 0 2 * * *" # Every day at 2am
     retentionPolicy: "30d"
     s3:
       endpointURL: "https://s3.sa-east-1.amazonaws.com"
       bucket: "finance-project-backups"
       path: "/cnpg-production"
       credentialsSecretName: "aws-secrets"
+    serverName: ""
     manualBackup:
       enabled: false
       suffix: ""
-  
+
+  # Restore mode. When enabled, the cluster is created from the backups in
+  # backup.s3 instead of an empty initdb. Only takes effect when the Cluster
+  # is created. Used by the restore drill and for real recoveries:
+  # see docs/recovery.md.
+  restore:
+    enabled: false
+    # Folder to read from. Empty = backup.serverName, then the cluster name.
+    sourceServerName: ""
+    # Optional point in time, RFC 3339 (e.g. "2026-11-09T10:00:00Z"). Empty = latest WAL.
+    targetTime: ""
+
   service:
     name: "pg-finance-project-production"
     type: ClusterIP
     port: 5432
-  
+
   networkPolicy:
     enabled: true
     # Only allow connections from pods in the same namespace

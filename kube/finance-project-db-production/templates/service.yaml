@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.pg_finance_project_production.service.name }}
-  namespace: finance-project-production
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "finance-project-db-production.labels" . | nindent 4 }}
 spec:

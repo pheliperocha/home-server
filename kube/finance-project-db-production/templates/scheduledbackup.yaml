@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: {{ include "finance-project-db-production.clusterName" . }}-backup
-  namespace: finance-project-production
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "finance-project-db-production.labels" . | nindent 4 }}
 spec:

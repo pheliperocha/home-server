@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "finance-project-db-production.clusterName" . }}-netpol
-  namespace: finance-project-production
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "finance-project-db-production.labels" . | nindent 4 }}
 spec:

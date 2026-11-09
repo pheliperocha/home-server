@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ include "lastro-db.clusterName" . }}-netpol
-  namespace: lastro
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "lastro-db.labels" . | nindent 4 }}
 spec:

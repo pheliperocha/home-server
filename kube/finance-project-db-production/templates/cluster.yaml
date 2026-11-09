@@ -1,58 +1,94 @@
-{{- if .Values.pg_finance_project_production.enabled }}
+{{- $v := .Values.pg_finance_project_production }}
+{{- $clusterName := include "finance-project-db-production.clusterName" . }}
+{{- if $v.enabled }}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{ include "finance-project-db-production.clusterName" . }}
-  namespace: finance-project-production
+  name: {{ $clusterName }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "finance-project-db-production.labels" . | nindent 4 }}
 spec:
-  instances: {{ .Values.pg_finance_project_production.cluster.instances }}
-  
+  instances: {{ $v.cluster.instances }}
+
   imageName: ghcr.io/cloudnative-pg/postgresql:18.1
-  
+
   bootstrap:
+    {{- if $v.restore.enabled }}
+    # Restore mode: build the cluster from the base backup + WAL in S3.
+    # Bootstrap only runs when the cluster is created. See docs/recovery.md.
+    recovery:
+      source: backup-source
+      database: {{ $v.database.name }}
+      owner: app
+      {{- if $v.restore.targetTime }}
+      recoveryTarget:
+        targetTime: {{ $v.restore.targetTime | quote }}
+      {{- end }}
+    {{- else }}
     initdb:
-      database: {{ .Values.pg_finance_project_production.database.name }}
+      database: {{ $v.database.name }}
       owner: app
       encoding: UTF8
       localeCType: en_US.UTF-8
       localeCollate: en_US.UTF-8
-  
-  storage:
-    size: {{ .Values.pg_finance_project_production.cluster.storage.size }}
-    {{- if .Values.pg_finance_project_production.cluster.storage.storageClass }}
-    storageClass: {{ .Values.pg_finance_project_production.cluster.storage.storageClass }}
     {{- end }}
-  
+
+  {{- if $v.restore.enabled }}
+  externalClusters:
+    - name: backup-source
+      barmanObjectStore:
+        destinationPath: "s3://{{ $v.backup.s3.bucket }}{{ $v.backup.s3.path }}"
+        endpointURL: {{ $v.backup.s3.endpointURL }}
+        serverName: {{ $v.restore.sourceServerName | default $v.backup.serverName | default $clusterName }}
+        s3Credentials:
+          accessKeyId:
+            name: {{ $v.backup.s3.credentialsSecretName }}
+            key: AWS_ACCESS_KEY_ID
+          secretAccessKey:
+            name: {{ $v.backup.s3.credentialsSecretName }}
+            key: AWS_SECRET_ACCESS_KEY
+        wal:
+          maxParallel: 4
+  {{- end }}
+
+  storage:
+    size: {{ $v.cluster.storage.size }}
+    {{- if $v.cluster.storage.storageClass }}
+    storageClass: {{ $v.cluster.storage.storageClass }}
+    {{- end }}
+
   resources:
     requests:
-      memory: {{ .Values.pg_finance_project_production.cluster.resources.requests.memory | quote }}
-      cpu: {{ .Values.pg_finance_project_production.cluster.resources.requests.cpu | quote }}
+      memory: {{ $v.cluster.resources.requests.memory | quote }}
+      cpu: {{ $v.cluster.resources.requests.cpu | quote }}
     limits:
-      memory: {{ .Values.pg_finance_project_production.cluster.resources.limits.memory | quote }}
-      cpu: {{ .Values.pg_finance_project_production.cluster.resources.limits.cpu | quote }}
-  
+      memory: {{ $v.cluster.resources.limits.memory | quote }}
+      cpu: {{ $v.cluster.resources.limits.cpu | quote }}
+
   postgresql:
     parameters:
-      {{- range $key, $value := .Values.pg_finance_project_production.cluster.postgresql.parameters }}
+      {{- range $key, $value := $v.cluster.postgresql.parameters }}
       {{ $key }}: {{ $value | quote }}
       {{- end }}
-  
+
   monitoring:
     enablePodMonitor: true
-  
-  {{- if .Values.pg_finance_project_production.backup.enabled }}
+
+  {{- if $v.backup.enabled }}
   backup:
     barmanObjectStore:
-      destinationPath: "s3://{{ .Values.pg_finance_project_production.backup.s3.bucket }}{{ .Values.pg_finance_project_production.backup.s3.path }}"
-      endpointURL: {{ .Values.pg_finance_project_production.backup.s3.endpointURL }}
+      destinationPath: "s3://{{ $v.backup.s3.bucket }}{{ $v.backup.s3.path }}"
+      endpointURL: {{ $v.backup.s3.endpointURL }}
+      {{- if $v.backup.serverName }}
+      serverName: {{ $v.backup.serverName }}
+      {{- end }}
       s3Credentials:
         accessKeyId:
-          name: {{ .Values.pg_finance_project_production.backup.s3.credentialsSecretName }}
+          name: {{ $v.backup.s3.credentialsSecretName }}
           key: AWS_ACCESS_KEY_ID
         secretAccessKey:
-          name: {{ .Values.pg_finance_project_production.backup.s3.credentialsSecretName }}
+          name: {{ $v.backup.s3.credentialsSecretName }}
           key: AWS_SECRET_ACCESS_KEY
       wal:
         compression: gzip
@@ -60,6 +96,6 @@ spec:
       data:
         compression: gzip
         encryption: AES256
-    retentionPolicy: {{ .Values.pg_finance_project_production.backup.retentionPolicy | quote }}
+    retentionPolicy: {{ $v.backup.retentionPolicy | quote }}
   {{- end }}
 {{- end }}
