@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: {{ include "lastro-db.clusterName" . }}-backup
-  namespace: lastro
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "lastro-db.labels" . | nindent 4 }}
 spec:
@@ -12,5 +12,6 @@ spec:
   cluster:
     name: {{ include "lastro-db.clusterName" . }}
   method: barmanObjectStore
-  immediate: false
+  # First backup runs as soon as the ScheduledBackup is created.
+  immediate: true
 {{- end }}

@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
   name: cnpg-manual-backup-{{ .Values.pg_finance_project_production.backup.manualBackup.suffix }}
-  namespace: finance-project-production
+  namespace: {{ .Release.Namespace }}
 spec:
   cluster:
     name: pg-finance-project-production

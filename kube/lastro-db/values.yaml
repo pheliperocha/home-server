@@ -27,17 +27,28 @@ lastro_db:
         work_mem: "4MB"
 
   backup:
-    enabled: false
-    schedule: "0 0 3 * * *"
+    enabled: true
+    schedule: "0 0 3 * * *" # Every day at 3am
     retentionPolicy: "30d"
     s3:
       endpointURL: "https://s3.sa-east-1.amazonaws.com"
       bucket: "lastro-backups"
       path: "/cnpg-production"
       credentialsSecretName: "aws-secrets"
+    serverName: ""
     manualBackup:
       enabled: false
       suffix: ""
+
+  # Restore mode. When enabled, the cluster is created from the backups in
+  # backup.s3 instead of an empty initdb. Only takes effect when the Cluster
+  # is created. See docs/recovery.md.
+  restore:
+    enabled: false
+    # Folder to read from. Empty = backup.serverName, then the cluster name.
+    sourceServerName: ""
+    # Optional point in time, RFC 3339. Empty = latest WAL.
+    targetTime: ""
 
   service:
     name: "pg-lastro-db"
