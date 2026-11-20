@@ -192,9 +192,11 @@ export class LaunchHandler implements ICommandHandler<LaunchCommand> {
         `Starting helm release the application...`,
       );
 
-      const namespacePrefix = this.namespaceMap.getNamespaceByAppName(appName);
-      const namespace = `${namespacePrefix}-${target}`;
-      await this.helmService.release(appName, namespace, target, pid);
+      const { namespace, releaseName } = this.namespaceMap.getDeployTarget(
+        appName,
+        target,
+      );
+      await this.helmService.release(releaseName, namespace, target, pid);
       await this.kubectlService.checkRelease(namespace, appVersion, pid);
 
       await this.launchProcessLogRepository.save(

@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { IConfig } from '../config/configuration';
+import { IAppConfigMap, IConfig } from '../config/configuration';
 
 export type RepositoryAllowed = Array<{
   appName: string;
@@ -19,5 +19,26 @@ export class NamespaceMapService {
     }
 
     return appConfig.namespace;
+  }
+
+  /** Where and under which release name an app is deployed for a target. */
+  getDeployTarget(
+    appName: string,
+    target: string,
+  ): { namespace: string; releaseName: string } {
+    const appConfig = this.configService.get<IAppConfigMap>('appConfigMap')[
+      appName
+    ];
+
+    if (!appConfig) {
+      throw new Error(`App ${appName} not found`);
+    }
+
+    return {
+      namespace: appConfig.fixedNamespace
+        ? appConfig.namespace
+        : `${appConfig.namespace}-${target}`,
+      releaseName: appConfig.releaseName ?? `${appName}-${target}`,
+    };
   }
 }

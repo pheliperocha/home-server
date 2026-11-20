@@ -23,8 +23,8 @@ RUN apk update
 # Helm, Kubectl, awscli references
 # https://github.com/alpine-docker/k8s/blob/master/Dockerfile
 
-ARG KUBECTL_VERSION=1.17.5
-ARG HELM_VERSION=3.2.1
+ARG KUBECTL_VERSION=1.32.9
+ARG HELM_VERSION=3.16.4
 ARG SOPS_VERSION="3.7.3"
 ARG HELM_SECRETS_VERSION="4.4.2"
 
@@ -49,7 +49,7 @@ RUN . /envfile && echo $ARCH && \
 
 # Install kubectl
 RUN . /envfile && echo $ARCH && \
-  curl -sLO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl && \
+  curl -sLO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl && \
   mv kubectl /usr/bin/kubectl && \
   chmod +x /usr/bin/kubectl
 

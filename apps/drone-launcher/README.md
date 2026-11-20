@@ -156,6 +156,13 @@ The application uses Kubernetes Role-Based Access Control (RBAC) for secure clus
 - **Principle of Least Privilege**: Service account only has access to resources needed for deployments
 - **Cross-Namespace Access**: ClusterRole allows the service to deploy to specific target namespaces while running in its own namespace
 
+### Namespace and release name
+
+By default an app deploys to namespace `<namespace>-<target>` as release `<app>-<target>`. An
+app config entry can pin both with `fixedNamespace: true` and `releaseName`, to adopt a release
+that already exists in a fixed namespace (`lastro` does, since its database and secrets live
+there). The values files still follow the target (`values.<target>.yaml`, `secrets.<target>.yaml`).
+
 ### Security Features
 
 - **Timing-Safe Comparison**: Uses `crypto.timingSafeEqual()` to prevent timing attacks
