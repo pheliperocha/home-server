@@ -14,7 +14,6 @@ rules:
       - configmaps
       - services
       - pods
-      - persistentvolumeclaims
     verbs:
       - list
       - get
@@ -28,17 +27,6 @@ rules:
     resources:
       - deployments
     verbs:
-      - get
-      - create
-      - patch
-      - delete
-
-  - apiGroups:
-      - "batch"
-    resources:
-      - jobs
-    verbs:
-      - list
       - get
       - create
       - patch
