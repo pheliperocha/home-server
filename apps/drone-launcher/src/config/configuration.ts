@@ -2,6 +2,10 @@ export interface IAppConfigMap {
   [appName: string]: {
     repository: string;
     namespace: string;
+    /** Deploy into exactly `namespace` instead of `<namespace>-<target>`. */
+    fixedNamespace?: boolean;
+    /** Helm release name instead of `<app>-<target>`, to adopt a release that already exists. */
+    releaseName?: string;
     allowedUsers: { id: number; login: string }[];
   };
 }
@@ -38,6 +42,13 @@ export default (): IConfig => ({
     'nfe-reader': {
       repository: 'pheliperocha/nfe-reader',
       namespace: 'finance-project',
+      allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
+    },
+    lastro: {
+      repository: 'pheliperocha/lastro',
+      namespace: 'lastro',
+      fixedNamespace: true,
+      releaseName: 'lastro',
       allowedUsers: [{ id: 6820528, login: 'pheliperocha' }],
     },
     'skill-graph': {

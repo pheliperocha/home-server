@@ -156,6 +156,29 @@ The application uses Kubernetes Role-Based Access Control (RBAC) for secure clus
 - **Principle of Least Privilege**: Service account only has access to resources needed for deployments
 - **Cross-Namespace Access**: ClusterRole allows the service to deploy to specific target namespaces while running in its own namespace
 
+### Namespace and release name
+
+By default an app deploys to namespace `<namespace>-<target>` as release `<app>-<target>`. An
+app config entry can pin both with `fixedNamespace: true` and `releaseName`, to adopt a release
+that already exists in a fixed namespace (`lastro` does, since its database and secrets live
+there). The values files still follow the target (`values.<target>.yaml`, `secrets.<target>.yaml`).
+Such an app deploys to `production` only: any other target is refused, since a second target
+would write into the same namespace.
+
+### Permissions in the `lastro` namespace
+
+The Launcher gets one binding there, to its own role (`drone-launcher-lastro-clusterrole`), not the
+shared one the Finance namespaces use. The role holds what a `helm secrets upgrade` of the Lastro
+chart does and no more: Secrets (Helm stores each release revision as one, with a new name per
+revision, so they cannot be scoped by name), Deployments, Ingresses, Services and ServiceAccounts
+(get, create, patch, delete), PersistentVolumeClaims (no `delete`), Jobs (with `delete`, because Helm
+removes the migration hook after it succeeds and before the next run:
+`hook-delete-policy: before-hook-creation,hook-succeeded`), and Pods with `list` and `get` only, for
+the readiness check. It cannot write Pods or ConfigMaps, so it cannot delete the database pod that
+shares the namespace. It can still read and delete the namespace's Secrets, including the database
+credentials: Helm needs that access. A new kind in the chart needs a rule here, or the upgrade fails
+with a `forbidden` error.
+
 ### Security Features
 
 - **Timing-Safe Comparison**: Uses `crypto.timingSafeEqual()` to prevent timing attacks
