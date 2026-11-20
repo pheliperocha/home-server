@@ -167,13 +167,17 @@ would write into the same namespace.
 
 ### Permissions in the `lastro` namespace
 
-The Launcher gets two bindings there. The shared `drone-launcher-clusterrole` (the same one the
-Finance namespaces use) covers what `helm secrets upgrade` does in a namespace: it stores every
-release revision as a Secret, and manages the chart's Deployment, Service, Ingress, ConfigMaps and
-ServiceAccount. A second, Lastro-only role adds PersistentVolumeClaims (no `delete`) and Jobs. Jobs
-keep `delete` because the migration hook is removed by Helm after it succeeds and before the next
-run (`hook-delete-policy: before-hook-creation,hook-succeeded`); without it every upgrade fails.
-The Secrets access is not scoped to names, because release Secrets get a new name per revision.
+The Launcher gets one binding there, to its own role (`drone-launcher-lastro-clusterrole`), not the
+shared one the Finance namespaces use. The role holds what a `helm secrets upgrade` of the Lastro
+chart does and no more: Secrets (Helm stores each release revision as one, with a new name per
+revision, so they cannot be scoped by name), Deployments, Ingresses, Services and ServiceAccounts
+(get, create, patch, delete), PersistentVolumeClaims (no `delete`), Jobs (with `delete`, because Helm
+removes the migration hook after it succeeds and before the next run:
+`hook-delete-policy: before-hook-creation,hook-succeeded`), and Pods with `list` and `get` only, for
+the readiness check. It cannot write Pods or ConfigMaps, so it cannot delete the database pod that
+shares the namespace. It can still read and delete the namespace's Secrets, including the database
+credentials: Helm needs that access. A new kind in the chart needs a rule here, or the upgrade fails
+with a `forbidden` error.
 
 ### Security Features
 
