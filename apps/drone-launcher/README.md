@@ -162,6 +162,18 @@ By default an app deploys to namespace `<namespace>-<target>` as release `<app>-
 app config entry can pin both with `fixedNamespace: true` and `releaseName`, to adopt a release
 that already exists in a fixed namespace (`lastro` does, since its database and secrets live
 there). The values files still follow the target (`values.<target>.yaml`, `secrets.<target>.yaml`).
+Such an app deploys to `production` only: any other target is refused, since a second target
+would write into the same namespace.
+
+### Permissions in the `lastro` namespace
+
+The Launcher gets two bindings there. The shared `drone-launcher-clusterrole` (the same one the
+Finance namespaces use) covers what `helm secrets upgrade` does in a namespace: it stores every
+release revision as a Secret, and manages the chart's Deployment, Service, Ingress, ConfigMaps and
+ServiceAccount. A second, Lastro-only role adds PersistentVolumeClaims (no `delete`) and Jobs. Jobs
+keep `delete` because the migration hook is removed by Helm after it succeeds and before the next
+run (`hook-delete-policy: before-hook-creation,hook-succeeded`); without it every upgrade fails.
+The Secrets access is not scoped to names, because release Secrets get a new name per revision.
 
 ### Security Features
 
