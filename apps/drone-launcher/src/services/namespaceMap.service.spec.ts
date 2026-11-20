@@ -28,6 +28,12 @@ describe('NamespaceMapService.getDeployTarget', () => {
     });
   });
 
+  it('refuses any other target for an app with a single namespace', () => {
+    expect(() => service.getDeployTarget('lastro', 'staging')).toThrow(
+      'only deploys to production',
+    );
+  });
+
   it('rejects an unknown app', () => {
     expect(() => service.getDeployTarget('nope', 'staging')).toThrow(
       'App nope not found',

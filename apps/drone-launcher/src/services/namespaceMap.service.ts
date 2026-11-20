@@ -34,6 +34,13 @@ export class NamespaceMapService {
       throw new Error(`App ${appName} not found`);
     }
 
+    // One namespace cannot hold two targets: a staging run would overwrite production.
+    if (appConfig.fixedNamespace && target !== 'production') {
+      throw new Error(
+        `App ${appName} has a single namespace and only deploys to production, not ${target}`,
+      );
+    }
+
     return {
       namespace: appConfig.fixedNamespace
         ? appConfig.namespace
